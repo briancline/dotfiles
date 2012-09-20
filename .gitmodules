@@ -31,3 +31,9 @@
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
+[submodule "vim/colors/Vim-Tomorrow-Theme"]
+	path = vim/colors/Vim-Tomorrow-Theme
+	url = git://github.com/chriskempson/vim-tomorrow-theme.git
+[submodule "vim/colors/wombat256.vim"]
+	path = vim/colors/wombat256.vim
+	url = git://github.com/vim-scripts/wombat256.vim.git
