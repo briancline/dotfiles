@@ -1,0 +1,7 @@
+[user]
+	name = Brian Cline
+	email = brian.cline@gmail.com
+[mergetool]
+	keepBackup = true
+[color]
+	ui = auto
