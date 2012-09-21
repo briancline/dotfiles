@@ -129,7 +129,8 @@ augroup resCur
 	autocmd BufWinEnter * call ResCur()
 augroup END
 
-
+highlight OverLength ctermbg=red ctermfg=white
+match OverLength /\%81v.\+/
 
 let g:user_zen_settings = {
 \	'php' : {
