@@ -29,7 +29,7 @@ set ttyfast
 set history=1000
 set hidden
 set ruler
-set cin si ai
+set colorcolumn=80
 
 set laststatus=2
 "set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
@@ -62,9 +62,11 @@ let php_parent_error_open = 1
 
 syntax enable
 set smartindent
-set tabstop=3 "tab char
+set autoindent
+set cindent
+set tabstop=4 "tab char
 set noexpandtab "don't expand tabs
-set shiftwidth=3 "indent width for autoindent
+set shiftwidth=4 "indent width for autoindent
 filetype on
 filetype indent on
 filetype plugin on
