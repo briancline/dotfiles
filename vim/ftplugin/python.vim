@@ -81,7 +81,7 @@ function! s:StatementStart(lnum)
             if maybe_lnum < 1
                 return lnum
             else
-                let lnum = maybe_lnum + 1
+                let lnum = maybe_lnum
             endif
         endif
     endwhile
