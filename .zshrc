@@ -16,8 +16,9 @@ setopt GLOB_COMPLETE
 setopt PUSHD_MINUS
 setopt PUSHD_TO_HOME
 
-setopt VI
-export EDITOR="vi"
+#setopt VI
+setopt EMACS
+export EDITOR="vim"
 
 setopt NUMERIC_GLOB_SORT
 setopt RC_EXPAND_PARAM
@@ -50,6 +51,9 @@ bindkey "\e[3~" delete-char            # Del
 bindkey "\e[H" beginning-of-line       # Home (OSX)
 bindkey "\e[F" end-of-line             # End (OSX)
 
+bindkey "^[[B" history-search-backward
+bindkey "^[[F" history-search-forward
+
 
 HISTFILE=~/.history
 SAVEHIST=50000
@@ -74,6 +78,8 @@ setopt HIST_FIND_NO_DUPS
 [[ -d "/sw/bin" ]] && \
 	export PATH=$PATH:/sw/bin
 
+[[ -d "/opt/scala/bin" ]] && export SCALA_HOME=/opt/scala && \
+	export PATH=$PATH:$SCALA_HOME/bin
 [[ -d "/core/hbase" ]] && export HBASE_HOME=/core/hbase && \
 	export PATH=$PATH:$HBASE_HOME/bin
 [[ -d "/core/zoo" ]] && export ZK_HOME=/core/zoo && \
