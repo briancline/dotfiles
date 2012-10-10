@@ -111,12 +111,12 @@ set spellsuggest=9 "show only 9 suggestions for misspelled words
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <F8> :TagbarToggle<CR>
+
 "autoindent entire file
 nmap <F11> 1G=G
 imap <F11> <ESC>1G=Ga
 
-"toggle a fold
-nnoremap <space> za
 nnoremap \ :set hlsearch!<CR>
 
 "nnoremap <CR> :noh<CR><CR>
@@ -153,3 +153,20 @@ let g:user_zen_settings = {
 \		'extends' : 'html',
 \	},
 \}
+
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'Scala',
+    \ 'kinds' : [
+        \ 'p:packages:1',
+        \ 'V:values',
+        \ 'v:variables',
+        \ 'T:types',
+        \ 't:traits',
+        \ 'o:objects',
+        \ 'a:aclasses',
+        \ 'c:classes',
+        \ 'r:cclasses',
+        \ 'm:methods'
+    \ ]
+\ }
+
