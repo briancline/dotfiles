@@ -24,12 +24,16 @@ endif
 
 
 set mouse=a
+set ttymouse=xterm2
 set undolevels=1000
 set ttyfast
 set history=1000
 set hidden
 set ruler
-set colorcolumn=80
+
+if has("colorcolumn")
+	set colorcolumn=80
+endif
 
 set laststatus=2
 "set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
@@ -43,6 +47,9 @@ set laststatus=2
 let g:syntastic_auto_jump=1
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': [],
+                           \ 'passive_filetypes': ['scala'] }
 
 set title
 auto BufEnter * let &titlestring = hostname .": ". expand("%:t") ." (". expand("%:p:h") .")"
