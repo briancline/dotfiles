@@ -107,3 +107,7 @@ randpass () {
 }
 
 
+if [[ -f ~/env-work/.zshrc ]]; then
+	source ~/env-work/.zshrc
+fi
+
