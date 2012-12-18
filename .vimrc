@@ -120,7 +120,8 @@ imap <F11> <ESC>1G=Ga
 nnoremap \ :set hlsearch!<CR>
 
 "nnoremap <CR> :noh<CR><CR>
-set listchars=tab:>-,trail:·,eol:$
+set list
+set listchars=tab:>·,trail:·,extends:#,nbsp:.
 nmap <silent> <leader>s :set nolist!<CR>
 
 
