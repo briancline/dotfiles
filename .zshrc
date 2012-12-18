@@ -40,6 +40,11 @@ alias ez='vim ~/.zshrc'
 alias ll='ls -l'
 alias llt='ls -ltr'
 
+alias tmux='tmux -2'
+alias tx='tmux -2'
+alias txa='tmux attach-session -t'
+alias txn='tmux new-session -s'
+
 
 bindkey "\e[1~" beginning-of-line      # Home
 bindkey "\e[4~" end-of-line            # End
