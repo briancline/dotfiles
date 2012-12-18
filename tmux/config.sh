@@ -8,5 +8,5 @@ fi
 
 if [ -z "$USE_PATCHED_FONT" ]; then
 	# Useage of patched font for symbols. true or false.
-	export USE_PATCHED_FONT="true"
+	export USE_PATCHED_FONT="false"
 fi
