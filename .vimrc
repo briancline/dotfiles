@@ -142,6 +142,9 @@ augroup END
 highlight OverLength ctermbg=red ctermfg=white
 match OverLength /\%81v.\+/
 
+highlight ExtraWhitespace ctermbg=yellow ctermfg=black
+match ExtraWhitespace /\s\+$/
+
 let g:user_zen_settings = {
 \	'php' : {
 \		'extends' : 'html',
