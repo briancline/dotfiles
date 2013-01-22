@@ -43,3 +43,6 @@
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar
+[submodule "vim/bundle/vim-flake8"]
+	path = vim/bundle/vim-flake8
+	url = git://github.com/nvie/vim-flake8.git
