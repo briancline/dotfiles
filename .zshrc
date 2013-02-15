@@ -92,6 +92,9 @@ setopt HIST_FIND_NO_DUPS
 [[ -d "/core/hadoop" ]] && export HADOOP_HOME=/core/hadoop && \
 	export PATH=$PATH:$HADOOP_HOME/bin
 
+[[ -s $HOME/.pythonbrew/etc/bashrc ]] && \
+	source $HOME/.pythonbrew/etc/bashrc
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && \
 	export PATH=$PATH:$HOME/.rvm/bin && \
 	source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
