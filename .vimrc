@@ -44,7 +44,7 @@ set laststatus=2
 
 "let g:Powerline_symbols = 'fancy'
 
-let g:syntastic_auto_jump=1
+let g:syntastic_auto_jump=0
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_mode_map = { 'mode': 'active',
@@ -56,7 +56,9 @@ auto BufEnter * let &titlestring = hostname .": ". expand("%:t") ." (". expand("
 
 " clear search term for peace and quiet
 map <silent> <C-N> :let @/=""<CR>
+
 map T :exec ":NERDTree"<CR>
+let NERDTreeIgnore = ['\.pyc$','\.log$']
 
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
