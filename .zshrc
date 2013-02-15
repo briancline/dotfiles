@@ -1,3 +1,4 @@
+PATH=$PATH:/sbin
 PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
 
