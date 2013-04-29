@@ -88,6 +88,9 @@ _install_dotfiles () {
 	for ii in .zshrc .tmux.conf .vimrc .vim .gitconfig; do
 		rm -f $ii
 	done
+	for ii in .irssi/; do
+		rm -rf $ii
+	done
 	popd
 
 	pushd $ENVPATH
@@ -98,6 +101,7 @@ _install_dotfiles () {
 	ln -fs $ENVPATH/.tmux.conf ~/.tmux.conf
 	ln -fs $ENVPATH/.vimrc ~/.vimrc
 	ln -fs $ENVPATH/vim ~/.vim
+	ln -fs $ENVPATH/.irssi ~/.irssi
 	ln -fs $ENVPATH/.gitconfig-home ~/.gitconfig
 }
 
