@@ -4,7 +4,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 
 
 ## Update locale and timezone settings
-apt-get install locales
+apt-get install -y locales
 debconf-set-selections <<EOF
 tzdata tzdata/Zones/Etc select UTC
 tzdata tzdata/Areas select America
@@ -24,4 +24,4 @@ export DEBIAN_CODENAME=$(awk '/^deb /{print $3}' /etc/apt/sources.list | head -n
 echo "deb http://mirror.us.leaseweb.net/debian-backports $DEBIAN_CODENAME-backports main" >/etc/apt/sources.list.d/backports.list
 apt-get update -y
 
-apt-get install tmux/$DEBIAN_CODENAME-backports
+apt-get install -y tmux/$DEBIAN_CODENAME-backports
