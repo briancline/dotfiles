@@ -1,4 +1,4 @@
-sudo ntpdate vim curl git python-pip screen tmux
+sudo ntpdate vim curl git python-pip screen tmux zsh
 @sudo ntpdate time.nist.gov
 @sudo apt-get install -y tmux/squeeze-backports
 ntp

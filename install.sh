@@ -1,4 +1,15 @@
 #!/bin/bash
+PLATFORM=unknown
+CORES=$(grep -c ^processor /proc/cpuinfo)
+MAKEJOBS=$(expr $CORES - 1)
+ENVPATH=$(cd $(dirname $0); pwd -P)
+PKG_INSTALL_CMD=
+PKG_REMOVE_CMD=
+SUDO=sudo
+
+SYSPKG=false
+PYTHON=${SYSPKG}
+CHANGEZSH=false
 
 _detect_platform () {
 	if [[ -f /etc/lsb-release ]]; then
@@ -17,7 +28,7 @@ _detect_platform () {
 }
 
 _install_system () {
-	sudo $ENVPATH/.system-$PLATFORM
+	$SUDO $ENVPATH/.system-$PLATFORM
 }
 
 _install_syspackages () {
@@ -91,41 +102,24 @@ _install_dotfiles () {
 }
 
 
-PLATFORM=unknown
-CORES=$(grep -c ^processor /proc/cpuinfo)
-MAKEJOBS=$(expr $CORES - 1)
-ENVPATH=$(cd $(dirname $0); pwd -P)
-PKG_INSTALL_CMD=
-PKG_REMOVE_CMD=
-
-SYSPKG=false
-SUDO=
-PYTHONS=${SYSPKG}
-CHANGEZSH=true
-
-while getopts ":dbs" option
+while getopts ":ipz" option
 do
 	case $option in
 		i) SYSPKG=true;;
-		s) SUDO="sudo";;
-		p) PYTHONS=true;;
+		p) PYTHON=true;;
 		z) CHANGEZSH=true;;
 		*) echo "Unknown option $option"; exit 1;;
 	esac
 done
 
 _detect_platform
-_install_system
-_install_syspackages
-_install_python
+[[ $SYSPKG ]] && _install_system
+[[ $SYSPKG ]] && _install_syspackages
+[[ $PYTHON ]] && _install_python
 _install_dotfiles
 
-exit 0;
-
-exit
-
-if [ ${CHANGEZSH} ]; then
+ZSH_PATH=$(which zsh)
+if [[ $CHANGEZSH ]] && [[ -n "$ZSH_PATH" ]]; then
 	RESULT=$($SUDO chsh -s $(which zsh) $USER)
 	echo $RESULT
 fi
-
