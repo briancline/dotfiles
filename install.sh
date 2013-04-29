@@ -102,10 +102,17 @@ _install_dotfiles () {
 }
 
 
-while getopts ":ipz" option
+while getopts ":hspz" option
 do
 	case $option in
-		i) SYSPKG=true;;
+		h) echo "Usage: $0 [-h] [-s] [-p] [-z]"
+		   echo "  -h   Displays help"
+		   echo "  -s   Sets up base system"
+		   echo "  -p   Installs Python packages and PythonBrew"
+		   echo "  -z   Changes shell to zsh"
+		   exit 0;;
+
+		s) SYSPKG=true;;
 		p) PYTHON=true;;
 		z) CHANGEZSH=true;;
 		*) echo "Unknown option $option"; exit 1;;
