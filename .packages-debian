@@ -1,6 +1,6 @@
-sudo ntpdate vim curl git python-pip screen tmux zsh
+sudo ntpdate vim curl git python-pip screen tmux/*backports irssi/*backports
+
 @sudo ntpdate time.nist.gov
-@sudo apt-get install -y tmux/squeeze-backports
 ntp
 
 gcc g++ make cmake automake autoconf bison flex ctags

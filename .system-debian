@@ -23,5 +23,3 @@ update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 export DEBIAN_CODENAME=$(awk '/^deb /{print $3}' /etc/apt/sources.list | head -n1)
 echo "deb http://mirror.us.leaseweb.net/debian-backports $DEBIAN_CODENAME-backports main" >/etc/apt/sources.list.d/backports.list
 apt-get update -y
-
-apt-get install -y tmux/$DEBIAN_CODENAME-backports
