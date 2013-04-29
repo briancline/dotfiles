@@ -56,7 +56,7 @@ _install_python () {
 
 	if [[ -s "$HOME/.pythonbrew/etc/bashrc" ]]; then
 		source "$HOME/.pythonbrew/etc/bashrc"
-		default_ver=false
+		default_ver=
 
 		for ver in $(cat .python-versions); do
 			if [[ "*" == "${ver:0:1}" ]]; then
@@ -66,9 +66,7 @@ _install_python () {
 			pythonbrew install $ver -j${MAKEJOBS}
 		done
 
-		if [ $default_ver ]; then
-			pythonbrew switch $default_ver
-		fi
+		[[ -n "$default_ver" ]] && pythonbrew switch $default_ver
 	fi
 
 
@@ -85,11 +83,8 @@ _install_python () {
 
 _install_dotfiles () {
 	pushd ~
-	for ii in .zshrc .tmux.conf .vimrc .vim .gitconfig; do
+	for ii in .zshrc .tmux.conf .vimrc .vim .irssi .gitconfig; do
 		rm -f $ii
-	done
-	for ii in .irssi/; do
-		rm -rf $ii
 	done
 	popd
 
@@ -124,9 +119,9 @@ do
 done
 
 _detect_platform
-[[ $SYSPKG ]] && _install_system
-[[ $SYSPKG ]] && _install_syspackages
-[[ $PYTHON ]] && _install_python
+$SYSPKG && _install_system
+$SYSPKG && _install_syspackages
+$PYTHON && _install_python
 _install_dotfiles
 
 ZSH_PATH=$(which zsh)
