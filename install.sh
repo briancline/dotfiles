@@ -1,37 +1,32 @@
 #!/bin/bash
 PLATFORM=unknown
-CORES=$(grep -c ^processor /proc/cpuinfo)
-MAKEJOBS=$(expr $CORES - 1)
-ENVPATH=$(cd $(dirname $0); pwd -P)
+export CORES=$(grep -c ^processor /proc/cpuinfo)
+export MAKEJOBS=$(expr $CORES - 1)
+
+os_readlink="readlink"
+[[ "${OSTYPE}" =~ "darwin" ]] && os_readlink="readlink"
+[[ "${OSTYPE}" =~ "linux" ]] && os_readlink="readlink -f"
+
+ENVPATH=$(dirname $($os_readlink $0))
 PKG_INSTALL_CMD=
 PKG_REMOVE_CMD=
+PIP_CMD=pip
 SUDO=sudo
 
 SYSPKG=false
 PYTHON=${SYSPKG}
 CHANGEZSH=false
 
-_detect_platform () {
-	if [[ -f /etc/lsb-release ]]; then
-		PLATFORM=$(source /etc/lsb-release; echo ${DISTRIB_ID} | awk '{print tolower($0)}')
-		PKG_INSTALL_CMD="$SUDO apt-get install -y"
-	elif [[ -f /etc/debian_version ]]; then
-		PLATFORM=debian
-		PKG_INSTALL_CMD="$SUDO apt-get install -y"
-	elif [[ -f /etc/centos-release ]]; then
-		PLATFORM=centos
-		PKG_INSTALL_CMD="$SUDO yum install -y"
-	elif [[ -f /etc/redhat-release ]]; then
-		PLATFORM=rhel
-		PKG_INSTALL_CMD="$SUDO yum install -y"
-	fi
-}
+. $ENVPATH/common.sh
+
 
 _install_system () {
 	$SUDO $ENVPATH/.system-$PLATFORM
 }
 
 _install_syspackages () {
+	[[ ! -f ".packages-$PLATFORM" ]] && return
+
 	cat .packages-$PLATFORM |
 	while read ii; do
 		if [[ ! "$ii" ]]; then
@@ -47,7 +42,7 @@ _install_syspackages () {
 }
 
 _install_python () {
-	$SUDO pip install pythonbrew
+	$SUDO $PIP_CMD install pythonbrew
 
 	pythonbrew off 2>/dev/null
 	#rm -rf ~/.pythonbrew
@@ -77,7 +72,7 @@ _install_python () {
 			continue
 		fi
 
-		$SUDO pip install $ii
+		$SUDO $PIP_CMD install $ii
 	done
 }
 
@@ -93,11 +88,22 @@ _install_dotfiles () {
 	popd
 
 	ln -fs $ENVPATH/.zshrc ~/.zshrc
+	ln -fs $ENVPATH/zsh ~/.zsh
 	ln -fs $ENVPATH/.tmux.conf ~/.tmux.conf
 	ln -fs $ENVPATH/.vimrc ~/.vimrc
 	ln -fs $ENVPATH/vim ~/.vim
 	ln -fs $ENVPATH/.irssi ~/.irssi
 	ln -fs $ENVPATH/.gitconfig-home ~/.gitconfig
+}
+
+_change_shell_zsh () {
+	[[ ! $CHANGEZSH ]] && return
+	if [[ -n "$(which zsh)" ]]; then
+		RESULT=$($SUDO chsh -s $(which zsh) $USER)
+		echo $RESULT
+	else
+		echo "zsh is not installed on your system."
+	fi
 }
 
 
@@ -118,14 +124,10 @@ do
 	esac
 done
 
+
 _detect_platform
 $SYSPKG && _install_system
 $SYSPKG && _install_syspackages
 $PYTHON && _install_python
 _install_dotfiles
-
-ZSH_PATH=$(which zsh)
-if [[ $CHANGEZSH ]] && [[ -n "$ZSH_PATH" ]]; then
-	RESULT=$($SUDO chsh -s $(which zsh) $USER)
-	echo $RESULT
-fi
+_change_shell_zsh
