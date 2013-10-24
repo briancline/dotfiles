@@ -1,7 +1,16 @@
 [user]
 	name = Brian Cline
 	email = brian.cline@gmail.com
+
+[push]
+	default = upstream
+
 [mergetool]
 	keepBackup = true
+
 [color]
 	ui = auto
+
+[alias]
+	lg = log --graph --decorate --oneline --all --pretty=format:'%C(yellow)%h %C(green)[%cd]%C(reset) %s' --abbrev-commit --date=short
+	tree = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cd)%C(reset)' --abbrev-commit --date=short
