@@ -1,8 +1,17 @@
-PATH=$PATH:/sbin
+PATH=/sbin:$PATH
+PATH=/usr/local/bin:$PATH
 PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
 
-autoload -U colors && colors
+os_readlink="readlink"
+[[ "${OSTYPE}" =~ "darwin" ]] && os_readlink="readlink"
+[[ "${OSTYPE}" =~ "linux" ]] && os_readlink="readlink -f"
+
+ENVPATH=$(dirname $($os_readlink ~/.zshrc))
+
+
+. $ENVPATH/common.sh
+
 
 precmd () {
 	## prompt, window title, and tab title
@@ -10,6 +19,21 @@ precmd () {
 	print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"
 	print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"
 }
+
+source_if_exists () {
+	[[ -f "$1" ]] && source "$1"
+}
+
+randpass () {
+	[[ "$2" == "0" ]] && CHAR="[:alnum:]" || CHAR="[:graph:]"
+	cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
+	echo
+}
+
+
+_detect_platform
+
+autoload -U colors && colors
 
 setopt AUTO_CD
 setopt AUTO_PUSHD
@@ -45,6 +69,11 @@ alias tmux='tmux -2'
 alias tx='tmux -2'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
+
+
+if [[ "${PLATFORM}" == "macos" ]]; then
+	alias st="open -a 'Sublime Text 2'"
+fi
 
 
 bindkey "\e[1~" beginning-of-line      # Home
@@ -84,8 +113,15 @@ setopt HIST_FIND_NO_DUPS
 [[ -d "/sw/bin" ]] && \
 	export PATH=$PATH:/sw/bin
 
+[[ -s $HOME/.pythonbrew/etc/bashrc ]] && \
+	source $HOME/.pythonbrew/etc/bashrc
+
 [[ -d "/opt/scala/bin" ]] && export SCALA_HOME=/opt/scala && \
 	export PATH=$PATH:$SCALA_HOME/bin
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && \
+	export PATH=$PATH:$HOME/.rvm/bin && \
+	source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 [[ -d "/core/hbase" ]] && export HBASE_HOME=/core/hbase && \
 	export PATH=$PATH:$HBASE_HOME/bin
 [[ -d "/core/zoo" ]] && export ZK_HOME=/core/zoo && \
@@ -93,30 +129,19 @@ setopt HIST_FIND_NO_DUPS
 [[ -d "/core/hadoop" ]] && export HADOOP_HOME=/core/hadoop && \
 	export PATH=$PATH:$HADOOP_HOME/bin
 
-[[ -s $HOME/.pythonbrew/etc/bashrc ]] && \
-	source $HOME/.pythonbrew/etc/bashrc
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && \
-	export PATH=$PATH:$HOME/.rvm/bin && \
-	source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 [[ -d "$HOME/dx/arcanist" ]] && \
 	export ARC_HOME=$HOME/dx/arcanist && \
 	export PATH=$PATH:$HOME/dx/arcanist
-[[ -d "$HOME/dx/cordova" ]] && \
-	export CORDOVA_HOME=$HOME/dx/cordova && \
-	export PATH=$PATH:$CORDOVA_HOME/bin
+[[ -d "$HOME/dx/android" ]] && \
+	export ANDROID_HOME=$HOME/dx/android/sdk && \
+	export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
+#[[ -d "$HOME/dx/cordova" ]] && \
+#	export CORDOVA_HOME=$HOME/dx/cordova && \
+#	export PATH=$PATH:$CORDOVA_HOME/bin
 
 
+source_if_exists ~/env-work/.zshrc
+source_if_exists ~/.zsh/git-prompt.sh
+source_if_exists ~/.slrc
 
-randpass () {
-	[[ "$2" == "0" ]] && CHAR="[:alnum:]" || CHAR="[:graph:]"
-	cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
-	echo
-}
-
-
-if [[ -f ~/env-work/.zshrc ]]; then
-	source ~/env-work/.zshrc
-fi
-
+[[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
