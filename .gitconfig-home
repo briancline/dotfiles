@@ -5,6 +5,11 @@
 [push]
 	default = upstream
 
+[core]
+    editor = vim
+    pager = true
+    whitespace = trailing-space,space-before-tab,indent-with-non-tab,cr-at-eol
+
 [mergetool]
 	keepBackup = true
 
