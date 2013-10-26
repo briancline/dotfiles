@@ -1,4 +1,4 @@
-PATH=/sbin:$PATH
+PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
 PATH=/usr/local/bin:$PATH
 PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
