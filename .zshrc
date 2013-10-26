@@ -144,6 +144,15 @@ source_if_exists ~/env-work/.zshrc
 source_if_exists ~/.zsh/git-prompt.sh
 source_if_exists ~/.zsh/git-editor.sh
 source_if_exists ~/.zsh/icloud-ssh.sh
+source_if_exists ~/.zsh/chef.sh
 source_if_exists ~/.slrc
 
-[[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
+
+
+[[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)" && \
+	export ENV_USE_RBENV=true
+
+[ ! "$ENV_USE_RBENV" ] && [ ! "$ENV_NO_RVM" ] && \
+	[[ -s "$HOME/.rvm/scripts/rvm" ]] && \
+	export PATH=$PATH:$HOME/.rvm/bin && \
+	source "$HOME/.rvm/scripts/rvm"  # Load RVM into environment as a function
