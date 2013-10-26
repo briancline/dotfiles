@@ -70,6 +70,8 @@ alias tx='tmux -2'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
 
+alias json='jq .'
+
 
 if [[ "${PLATFORM}" == "macos" ]]; then
 	alias st="open -a 'Sublime Text 2'"
