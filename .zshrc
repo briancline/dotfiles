@@ -93,8 +93,8 @@ bindkey "\e[3~" delete-char            # Del
 bindkey "\e[H" beginning-of-line       # Home (OSX)
 bindkey "\e[F" end-of-line             # End (OSX)
 
-bindkey "^[[B" history-search-backward
-bindkey "^[[F" history-search-forward
+#bindkey "^[[B" history-search-backward
+#bindkey "^[[F" history-search-forward
 
 
 HISTFILE=~/.history
