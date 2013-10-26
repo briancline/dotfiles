@@ -1,3 +1,5 @@
+.irssi/away.log
 vim/backup/*
 vim/tmp/*
+vim/.netrwhist
 .*.swp
