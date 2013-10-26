@@ -4,10 +4,11 @@ PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
 
 os_readlink="readlink"
-[[ "${OSTYPE}" =~ "darwin" ]] && os_readlink="readlink"
-[[ "${OSTYPE}" =~ "linux" ]] && os_readlink="readlink -f"
+os_readlink_args=""
+[[ "${OSTYPE}" =~ "darwin" ]] && os_readlink_args=""
+[[ "${OSTYPE}" =~ "linux" ]] && os_readlink_args="-f"
 
-ENVPATH=$(dirname $($os_readlink ~/.zshrc))
+ENVPATH=$(dirname $($os_readlink $os_readlink_args ~/.zshrc))
 
 
 . $ENVPATH/common.sh
