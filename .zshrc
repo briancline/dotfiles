@@ -75,6 +75,11 @@ alias json='jq .'
 
 if [[ "${PLATFORM}" == "macos" ]]; then
 	alias st="open -a 'Sublime Text 2'"
+
+elif [[ "${PLATFORM}" == "linux" ]]; then
+	CKEYS_FILE=/usr/share/X11/locale/en_US.UTF-8/Compose
+	[[ -f ${CKEYS_FILE} ]] && alias ckeys="${EDITOR} ${CKEYS_FILE}"
+
 fi
 
 
