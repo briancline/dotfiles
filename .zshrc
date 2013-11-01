@@ -155,7 +155,7 @@ source_if_exists ~/.zsh/icloud-ssh.sh
 source_if_exists ~/.zsh/chef.sh
 source_if_exists ~/.slrc
 
-
+source_if_exists ~/app/bashmarks/bashmarks.sh
 
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)" && \
 	export ENV_USE_RBENV=true
