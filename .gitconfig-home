@@ -8,7 +8,7 @@
 [core]
 	editor = ~/bin/st
 	pager = less
-	whitespace = trailing-space,space-before-tab,indent-with-non-tab,cr-at-eol
+	whitespace = trailing-space,space-before-tab,indent-with-tab,cr-at-eol
 
 [mergetool]
 	keepBackup = true
