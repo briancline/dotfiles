@@ -144,7 +144,7 @@ augroup END
 highlight ExtraWhitespace ctermbg=yellow ctermfg=black
 match ExtraWhitespace /\s\+$/
 
-let g:user_zen_settings = {
+let g:user_emmet_settings = {
 \	'php' : {
 \		'extends' : 'html',
 \		'filters' : 'c',
