@@ -84,18 +84,20 @@ elif [[ "${PLATFORM}" == "linux" ]]; then
 fi
 
 
-bindkey "\e[1~" beginning-of-line      # Home
-bindkey "\e[4~" end-of-line            # End
-bindkey "\e[5~" beginning-of-history   # PageUp
-bindkey "\e[6~" end-of-history         # PageDown
-bindkey "\e[2~" quoted-insert          # Ins
-bindkey "\e[3~" delete-char            # Del
+bindkey '^[[1~' beginning-of-line      # Home
+bindkey '^[[H' beginning-of-line       # Home
+bindkey '^[OH' beginning-of-line       # Home
+bindkey '^[[4~' end-of-line            # End
+bindkey '^[[F'  end-of-line            # End
+bindkey '^[OF' end-of-line             # End
 
-bindkey "\e[H" beginning-of-line       # Home (OSX)
-bindkey "\e[F" end-of-line             # End (OSX)
+bindkey '^[[5~' beginning-of-history   # PgUp
+bindkey '^[[6~' end-of-history         # PgDown
+bindkey '^[[A' up-line-or-search       # Up
+bindkey '^[[B' down-line-or-search     # Down
 
-#bindkey "^[[B" history-search-backward
-#bindkey "^[[F" history-search-forward
+bindkey '^[w' kill-region              # Esc-w (delete entire line)
+bindkey '^[[3~' delete-char            # Del
 
 
 HISTFILE=~/.history
