@@ -6,26 +6,36 @@ VIM_LOCATION="$(which vim 2>/dev/null)"
 VI_LOCATION="$(which vi 2>/dev/null)"
 NANO_LOCATION="$(which nano 2>/dev/null)"
 
-HOME_EDITOR="${HOME}/bin/st"
+HOME_EDITOR_SUBL="${HOME}/bin/subl"
+HOME_EDITOR_ST="${HOME}/bin/st"
+HOME_EDITOR="${HOME}/bin/e"
 
-if [ ! -f "$HOME_EDITOR" ]; then
+if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
     mkdir -p ~/bin
 
     if [ -f "$OSX_SUBLIME_BIN" ]; then
-        ln -s $OSX_SUBLIME_BIN $HOME_EDITOR
+        ln -fs $OSX_SUBLIME_BIN $HOME_EDITOR
+        ln -fs $OSX_SUBLIME_BIN $HOME_EDITOR_SUBL
     elif [ -f "$LINUX_SUBLIME_OPT_BIN" ]; then
-        ln -s $LINUX_SUBLIME_OPT_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_OPT_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_OPT_BIN $HOME_EDITOR_SUBL
     elif [ -f "$LINUX_SUBLIME_BIN" ]; then
-        ln -s $LINUX_SUBLIME_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_BIN $HOME_EDITOR_SUBL
     elif [ -f "$LINUX_SUBLIME_HOME_BIN" ]; then
-        ln -s $LINUX_SUBLIME_HOME_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_HOME_BIN $HOME_EDITOR
+        ln -fs $LINUX_SUBLIME_HOME_BIN $HOME_EDITOR_SUBL
     elif [ "$VIM_LOCATION" ]; then
-        ln -s $VIM_LOCATION $HOME_EDITOR
+        ln -fs $VIM_LOCATION $HOME_EDITOR
     elif [ "$VI_LOCATION" ]; then
-        ln -s $VI_LOCATION $HOME_EDITOR
+        ln -fs $VI_LOCATION $HOME_EDITOR
     elif [ "$NANO_LOCATION" ]; then
-        ln -s $NANO_LOCATION $HOME_EDITOR
+        ln -fs $NANO_LOCATION $HOME_EDITOR
     else:
         echo 'ERROR: No editors found. Good luck!' >/dev/stderr
+    fi
+
+    if [ ! -f "$HOME_EDITOR_ST" ] && [ -f "$HOME_EDITOR_SUBL" ]; then
+        ln -fs "$(readlink $HOME_EDITOR_SUBL)" $HOME_EDITOR_ST
     fi
 fi
