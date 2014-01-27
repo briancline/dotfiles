@@ -16,12 +16,11 @@ gitignore () {
     local base_url="https://raw.github.com/github/gitignore/master"
     local url="${base_url}/${lang}.gitignore"
 
-    curl -fs ${url} > ./.gitignore
+    curl -fs ${url} -o .gitignore
     curl_res=$?
 
     if [ $curl_res -ne 0 ]; then
-        rm -f ./.gitignore
-        echo "Could not fetch ${url}"
+        echo "Could not fetch ${url}" >&2
         return 1
     fi
 
