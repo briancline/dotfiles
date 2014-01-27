@@ -68,6 +68,7 @@ alias llt='ls -ltr'
 
 alias tmux='tmux -2'
 alias tx='tmux -2'
+alias txl='tmux list-sessions'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
 
