@@ -31,6 +31,10 @@ randpass () {
     echo
 }
 
+nowrap () {
+    cut -c -$(tput cols)
+}
+
 
 _detect_platform
 
