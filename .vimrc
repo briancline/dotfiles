@@ -74,7 +74,7 @@ set smartindent
 set autoindent
 set cindent
 set tabstop=4 "tab char
-set noexpandtab "don't expand tabs
+set expandtab "expand tabs
 set shiftwidth=4 "indent width for autoindent
 filetype on
 filetype indent on
