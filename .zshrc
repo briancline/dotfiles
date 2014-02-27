@@ -173,6 +173,7 @@ source_if_exists ~/.zsh/icloud-ssh.sh
 source_if_exists ~/.zsh/chef.sh
 source_if_exists ~/.zsh/packer.sh
 source_if_exists ~/.zsh/swag.sh
+source_if_exists ~/.zsh/sl-utils.sh
 source_if_exists ~/.slrc
 
 source_if_exists ~/app/bashmarks/bashmarks.sh
