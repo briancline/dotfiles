@@ -1,17 +1,17 @@
-OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
-LINUX_SUBLIME_BIN="$(which subl 2>/dev/null)"
-LINUX_SUBLIME_HOME_BIN="$HOME/apps/sublime-3/sublime_text"
-LINUX_SUBLIME_OPT_BIN="/opt/sublime_text/sublime_text"
-VIM_LOCATION="$(which vim 2>/dev/null)"
-VI_LOCATION="$(which vi 2>/dev/null)"
-NANO_LOCATION="$(which nano 2>/dev/null)"
-
 HOME_EDITOR_SUBL="${HOME}/bin/subl"
 HOME_EDITOR_ST="${HOME}/bin/st"
 HOME_EDITOR="${HOME}/bin/e"
 
 if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
     mkdir -p ~/bin
+
+    OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+    LINUX_SUBLIME_BIN="$(which subl 2>/dev/null)"
+    LINUX_SUBLIME_HOME_BIN="$HOME/apps/sublime-3/sublime_text"
+    LINUX_SUBLIME_OPT_BIN="/opt/sublime_text/sublime_text"
+    VIM_LOCATION="$(which vim 2>/dev/null)"
+    VI_LOCATION="$(which vi 2>/dev/null)"
+    NANO_LOCATION="$(which nano 2>/dev/null)"
 
     if [ -f "$OSX_SUBLIME_BIN" ]; then
         ln -fs $OSX_SUBLIME_BIN $HOME_EDITOR
@@ -39,3 +39,5 @@ if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
         ln -fs "$(readlink $HOME_EDITOR_SUBL)" $HOME_EDITOR_ST
     fi
 fi
+
+[[ -f "$HOME_EDITOR" ]] && export EDITOR=$HOME_EDITOR
