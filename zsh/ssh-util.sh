@@ -46,6 +46,21 @@ function ssh-wait () {
 }
 
 
+function yolossh () {
+    if [ $# -eq 0 ]; then
+        echo "Usage: $0 <host|user@host>"
+        echo ""
+        echo "Attempts to SSH to a host without using a known hosts file,"
+        echo "nor doing any sort of strict host key checking. Additionally"
+        echo "silences the accompanying warning by raising SSH's log level."
+        echo ""
+        echo "Other arguments can be provided just as they would to ssh."
+        return 1
+    fi
+
+    ssh $@ -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR
+}
+
 
 # Courtesy of <http://blog.joshdick.net/2012/08/10/ssh_via_icloud.html>.
 
