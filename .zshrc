@@ -1,8 +1,3 @@
-PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
-PATH=/usr/local/bin:$PATH
-PATH=$PATH:/opt/bin
-PATH=$PATH:$HOME/bin
-
 os_readlink="readlink"
 os_readlink_args=""
 [[ "${OSTYPE}" =~ "darwin" ]] && os_readlink_args=""
@@ -12,6 +7,12 @@ ENVPATH=$(dirname $($os_readlink $os_readlink_args ~/.zshrc))
 
 
 . $ENVPATH/common.sh
+
+PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
+PATH=/usr/local/bin:$PATH
+PATH=$PATH:/opt/bin
+PATH=$PATH:$HOME/bin
+PATH=$PATH:$ENVPATH/bin
 
 
 precmd () {
