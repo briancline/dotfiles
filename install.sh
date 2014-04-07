@@ -97,7 +97,7 @@ _install_dotfiles () {
 }
 
 _change_shell_zsh () {
-    [[ ! $CHANGEZSH ]] && return
+    $CHANGEZSH || return
     if [[ -n "$(which zsh)" ]]; then
         RESULT=$($SUDO chsh -s $(which zsh) $USER)
         echo $RESULT
