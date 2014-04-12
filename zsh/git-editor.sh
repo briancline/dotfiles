@@ -39,3 +39,17 @@ if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
 fi
 
 [ -f "$HOME_EDITOR" ] && export EDITOR="$(os_readlink_safe $HOME_EDITOR)"
+
+if [ -f "$EDITOR" ]; then
+    export EDITOR_NAME="$(basename "$(os_readlink_safe $EDITOR)")"
+    export GIT_EDITOR="$EDITOR_NAME"
+
+    if [[ "$EDITOR_NAME" =~ "^subl" ]]; then
+        ## If we're on a machine using Sublime Text as our editor, instruct
+        ## Sublime to wait (with -w) until the file git sends to it is closed
+        ## before returning anything back to git. Otherwise, git sees an
+        ## immediate exit and cancels the commit/rebase/merge/whatever due to
+        ## no changes in the file.
+        export GIT_EDITOR="$GIT_EDITOR -w"
+    fi
+fi
