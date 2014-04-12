@@ -12,12 +12,33 @@ PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$ENVPATH/bin
 
+PROMPT_PREFIXES=()
+PROMPT_SUFFIXES=()
 
 precmd () {
-    ## prompt, window title, and tab title
-    export PROMPT="%{$fg[blue]%}${HOST%.*.*}:%~%{$reset_color%}%# "
-    print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"
-    print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"
+    ## Set prompt, window title, and tab title
+    local _prefix=""
+    local _suffix=""
+    [ -n "${PROMPT_PREFIXES}" ] && _prefix="%{$fg[green]%}[${PROMPT_PREFIXES}]%{$reset_color%} "
+    [ -n "${PROMPT_SUFFIXES}" ] && _suffix=" %{$fg[green]%}[${PROMPT_SUFFIXES}]%{$reset_color%}"
+
+    export PROMPT="${_prefix}%{$fg[blue]%}${HOST%.*.*}:%~%{$reset_color%}${_suffix}%# "
+    print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"  ## window
+    print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"  ## tab
+}
+
+prompt_prefix_add () {
+    PROMPT_PREFIXES+=("$1")
+}
+prompt_prefix_remove () {
+    PROMPT_PREFIXES=(${(@)PROMPT_PREFIXES:#$1})
+}
+
+prompt_suffix_add () {
+    PROMPT_SUFFIXES+=("$1")
+}
+prompt_suffix_remove () {
+    PROMPT_SUFFIXES=(${(@)PROMPT_PREFIXES:#$1})
 }
 
 source_if_exists () {
