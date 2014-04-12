@@ -1,16 +1,16 @@
 [[ "${OSTYPE}" =~ "darwin" ]] && alias os_readlink='readlink'
 [[ "${OSTYPE}" =~ "linux" ]] && alias os_readlink='readlink -f'
 
-ENVPATH=$(dirname $(os_readlink ~/.zshrc))
+DOTFILES_PATH=$(dirname $(os_readlink ~/.zshrc))
 
 
-. $ENVPATH/common.sh
+. $DOTFILES_PATH/common.sh
 
 PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
 PATH=/usr/local/bin:$PATH
 PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
-PATH=$PATH:$ENVPATH/bin
+PATH=$PATH:$DOTFILES_PATH/bin
 
 PROMPT_PREFIXES=()
 PROMPT_SUFFIXES=()
@@ -164,34 +164,36 @@ setopt HIST_FIND_NO_DUPS
 
 
 [[ -d "/sw/bin" ]] && \
-    export PATH=$PATH:/sw/bin
+    export FINK_HOME=/sw && \
+    path_append /sw/bin
 
 [[ -s $HOME/.pythonbrew/etc/bashrc ]] && \
+    export PYTHONBREW_HOME=$HOME/.pythonbrew && \
     source $HOME/.pythonbrew/etc/bashrc
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
     export PYENV_ROOT=$HOME/.pyenv && \
-    export PATH=$PYENV_ROOT/bin:$PATH && \
     eval "$(pyenv init -)"
 
-[[ -d "/opt/scala/bin" ]] && export SCALA_HOME=/opt/scala && \
-    export PATH=$PATH:$SCALA_HOME/bin
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && \
-    export PATH=$PATH:$HOME/.rvm/bin && \
-    source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -d "/opt/scala/bin" ]] && \
+    export SCALA_HOME=/opt/scala && \
+    path_append $SCALA_HOME/bin
 
-[[ -d "/core/hbase" ]] && export HBASE_HOME=/core/hbase && \
-    export PATH=$PATH:$HBASE_HOME/bin
-[[ -d "/core/zoo" ]] && export ZK_HOME=/core/zoo && \
-    export PATH=$PATH:$ZK_HOME/bin
-[[ -d "/core/hadoop" ]] && export HADOOP_HOME=/core/hadoop && \
-    export PATH=$PATH:$HADOOP_HOME/bin
+[[ -d "/core/hbase" ]] && \
+    export HBASE_HOME=/core/hbase && \
+    path_append $HBASE_HOME/bin
+[[ -d "/core/zoo" ]] && \
+    export ZK_HOME=/core/zoo && \
+    path_append $ZK_HOME/bin
+[[ -d "/core/hadoop" ]] && \
+    export HADOOP_HOME=/core/hadoop && \
+    path_append $HADOOP_HOME/bin
 
-[[ -d "$HOME/dx/arcanist" ]] && \
-    export ARC_HOME=$HOME/dx/arcanist && \
-    export PATH=$PATH:$HOME/dx/arcanist
-[[ -d "$HOME/dx/android" ]] && \
-    export ANDROID_HOME=$HOME/dx/android/sdk && \
-    export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
+[[ -d "$HOME/app/arcanist" ]] && \
+    export ARC_HOME=$HOME/app/arcanist && \
+    path_append $HOME/app/arcanist
+[[ -d "$HOME/app/android" ]] && \
+    export ANDROID_HOME=$HOME/app/android/sdk && \
+    path_append $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
 
 
 source_if_exists ~/env-work/.zshrc
@@ -208,10 +210,11 @@ source_if_exists ~/.slrc
 
 source_if_exists ~/app/bashmarks/bashmarks.sh
 
+
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)" && \
     export ENV_USE_RBENV=true
 
 [ ! "$ENV_USE_RBENV" ] && [ ! "$ENV_NO_RVM" ] && \
     [[ -s "$HOME/.rvm/scripts/rvm" ]] && \
-    export PATH=$PATH:$HOME/.rvm/bin && \
+    path_append $HOME/.rvm/bin && \
     source "$HOME/.rvm/scripts/rvm"  # Load RVM into environment as a function
