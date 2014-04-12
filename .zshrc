@@ -192,9 +192,6 @@ setopt HIST_FIND_NO_DUPS
 [[ -d "$HOME/dx/android" ]] && \
     export ANDROID_HOME=$HOME/dx/android/sdk && \
     export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
-#[[ -d "$HOME/dx/cordova" ]] && \
-#    export CORDOVA_HOME=$HOME/dx/cordova && \
-#    export PATH=$PATH:$CORDOVA_HOME/bin
 
 
 source_if_exists ~/env-work/.zshrc
@@ -206,6 +203,7 @@ source_if_exists ~/.zsh/chef.sh
 source_if_exists ~/.zsh/packer.sh
 source_if_exists ~/.zsh/swag.sh
 source_if_exists ~/.zsh/sl-utils.sh
+source_if_exists ~/.zsh/cordova-util.sh
 source_if_exists ~/.slrc
 
 source_if_exists ~/app/bashmarks/bashmarks.sh
