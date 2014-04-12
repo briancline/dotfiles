@@ -41,6 +41,16 @@ prompt_suffix_remove () {
     PROMPT_SUFFIXES=(${(@)PROMPT_PREFIXES:#$1})
 }
 
+path_prepend () {
+    path=("$1" $path)
+}
+path_append () {
+    path+=("$1")
+}
+path_remove () {
+    path=(${(@)path:#$1})
+}
+
 source_if_exists () {
     [[ -f "$1" ]] && source "$1"
 }
