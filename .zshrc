@@ -1,9 +1,7 @@
-os_readlink="readlink"
-os_readlink_args=""
-[[ "${OSTYPE}" =~ "darwin" ]] && os_readlink_args=""
-[[ "${OSTYPE}" =~ "linux" ]] && os_readlink_args="-f"
+[[ "${OSTYPE}" =~ "darwin" ]] && alias os_readlink='readlink'
+[[ "${OSTYPE}" =~ "linux" ]] && alias os_readlink='readlink -f'
 
-ENVPATH=$(dirname $($os_readlink $os_readlink_args ~/.zshrc))
+ENVPATH=$(dirname $(os_readlink ~/.zshrc))
 
 
 . $ENVPATH/common.sh
