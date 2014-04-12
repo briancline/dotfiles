@@ -1,5 +1,4 @@
 HOME_EDITOR_SUBL="${HOME}/bin/subl"
-HOME_EDITOR_ST="${HOME}/bin/st"
 HOME_EDITOR="${HOME}/bin/e"
 
 if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
@@ -35,9 +34,6 @@ if [ ! -f "$HOME_EDITOR" ] || [ ! -f "$HOME_EDITOR_SUBL" ]; then
         echo 'ERROR: No editors found. Good luck!' >/dev/stderr
     fi
 
-    if [ ! -f "$HOME_EDITOR_ST" ] && [ -f "$HOME_EDITOR_SUBL" ]; then
-        ln -fs "$(readlink $HOME_EDITOR_SUBL)" $HOME_EDITOR_ST
-    fi
 fi
 
 [[ -f "$HOME_EDITOR" ]] && export EDITOR=$HOME_EDITOR
