@@ -1,0 +1,11 @@
+#compdef gitignore
+
+if [ -z "$_gitignores" ]; then
+    _gitignores="$(curl -s https://api.github.com/repos/github/gitignore/git/trees/HEAD \
+                   | awk '/gitignore",/ { print $2 }' \
+                   | sed -e 's/"\([^"]*\)\.gitignore",$/\1/' \
+                   | sort -f)"
+fi
+
+_arguments \
+    ":::($_gitignores)"

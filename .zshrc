@@ -68,6 +68,11 @@ nowrap () {
 
 _detect_platform
 
+
+[ -d ~/.zsh/completion ] &&
+    fpath=(~/.zsh/completion $fpath)
+
+autoload -U compinit && compinit
 autoload -U colors && colors
 
 setopt AUTO_CD
