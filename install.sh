@@ -78,7 +78,7 @@ _install_python () {
 
 _install_dotfiles () {
     pushd ~
-    for ii in .zshrc .tmux.conf .vimrc .vim .irssi .gitconfig .gitignore-global; do
+    for ii in .zshrc .tmux.conf .vimrc .vim .irssi .gitconfig .gitignore-global .bcrc; do
         rm -f $ii
     done
     popd
@@ -95,6 +95,7 @@ _install_dotfiles () {
     ln -fs $ENVPATH/.irssi ~/.irssi
     ln -fs $ENVPATH/.gitconfig-home ~/.gitconfig
     ln -fs $ENVPATH/.gitignore-global ~/.gitignore-global
+    ln -fs $ENVPATH/.bcrc ~/.bcrc
 }
 
 _change_shell_zsh () {

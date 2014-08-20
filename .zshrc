@@ -111,6 +111,10 @@ alias txl='tmux list-sessions'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
 
+[ -f ~/.bcrc ] \
+    && alias bc='bc -l ~/.bcrc' \
+    || alias bc='bc -l'
+
 (which jq >/dev/null 2>&1) \
     && alias json='jq .' \
     || alias json='python -m json.tool'
