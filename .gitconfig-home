@@ -8,6 +8,7 @@
 [core]
 	pager = less
 	whitespace = trailing-space,space-before-tab,indent-with-tab,cr-at-eol
+	excludesfile = ~/.gitignore-global
 
 [mergetool]
 	keepBackup = true
