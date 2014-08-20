@@ -13,7 +13,7 @@ gitignore () {
     fi
 
     local lang=$1
-    local base_url="https://raw.github.com/github/gitignore/master"
+    local base_url="https://raw.githubusercontent.com/github/gitignore/master"
     local url="${base_url}/${lang}.gitignore"
 
     curl -fs ${url} -o .gitignore
