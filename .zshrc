@@ -176,9 +176,6 @@ setopt HIST_FIND_NO_DUPS
     export FINK_HOME=/sw && \
     path_append /sw/bin
 
-[[ -s $HOME/.pythonbrew/etc/bashrc ]] && \
-    export PYTHONBREW_HOME=$HOME/.pythonbrew && \
-    source $HOME/.pythonbrew/etc/bashrc
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
     export PYENV_ROOT=$HOME/.pyenv && \
     eval "$(pyenv init -)"
@@ -187,19 +184,6 @@ setopt HIST_FIND_NO_DUPS
     export SCALA_HOME=/opt/scala && \
     path_append $SCALA_HOME/bin
 
-[[ -d "/core/hbase" ]] && \
-    export HBASE_HOME=/core/hbase && \
-    path_append $HBASE_HOME/bin
-[[ -d "/core/zoo" ]] && \
-    export ZK_HOME=/core/zoo && \
-    path_append $ZK_HOME/bin
-[[ -d "/core/hadoop" ]] && \
-    export HADOOP_HOME=/core/hadoop && \
-    path_append $HADOOP_HOME/bin
-
-[[ -d "$HOME/app/arcanist" ]] && \
-    export ARC_HOME=$HOME/app/arcanist && \
-    path_append $HOME/app/arcanist
 [[ -d "$HOME/app/android" ]] && \
     export ANDROID_HOME=$HOME/app/android/sdk && \
     path_append $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
@@ -216,8 +200,6 @@ source_if_exists ~/.zsh/swag.sh
 source_if_exists ~/.zsh/sl-utils.sh
 source_if_exists ~/.zsh/cordova-util.sh
 source_if_exists ~/.slrc
-
-source_if_exists ~/app/bashmarks/bashmarks.sh
 
 
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)" && \
