@@ -193,7 +193,7 @@ setopt HIST_FIND_NO_DUPS
     path_append $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
 
 
-source_if_exists ~/env-work/.zshrc
+source_if_exists ~/.env-work/.zshrc
 source_if_exists ~/.zsh/ssh-util.sh
 source_if_exists ~/.zsh/git-prompt.sh
 source_if_exists ~/.zsh/git-editor.sh
