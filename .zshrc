@@ -22,7 +22,8 @@ precmd () {
     [ -n "${PROMPT_PREFIXES}" ] && _prefix="%{$fg[green]%}[${PROMPT_PREFIXES}]%{$reset_color%} "
     [ -n "${PROMPT_SUFFIXES}" ] && _suffix=" %{$fg[green]%}[${PROMPT_SUFFIXES}]%{$reset_color%}"
 
-    export PROMPT="${_prefix}%{$fg[blue]%}${HOST%.*.*}:%~%{$reset_color%}${_suffix}%# "
+    export HOST_SHORT=${${HOST/.local/}%.*.*}
+    export PROMPT="${_prefix}%{$fg[blue]%}${HOST_SHORT}:%~%{$reset_color%}${_suffix}%# "
     print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"  ## window
     print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"  ## tab
 }
