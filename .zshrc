@@ -112,6 +112,8 @@ alias txl='tmux list-sessions'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
 
+alias sl='slcli'
+
 [ -f ~/.bcrc ] \
     && alias bc='bc -l ~/.bcrc' \
     || alias bc='bc -l'

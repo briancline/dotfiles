@@ -1,5 +1,5 @@
 function slip () {
-    local srv_type="cci"
+    local srv_type="vs"
     local priv_only=false
     local ipmi_only=false
 
@@ -22,7 +22,7 @@ function slip () {
 }
 
 function slpw () {
-    local srv_type="cci"
+    local srv_type="vs"
 
     while getopts h arg; do
         case $arg in
@@ -36,4 +36,3 @@ function slpw () {
 
     sl $srv_type detail --passwords $server | awk "$pattern {print \$NF}"
 }
-
