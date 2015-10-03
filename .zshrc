@@ -178,6 +178,7 @@ setopt HIST_FIND_NO_DUPS
 
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
     export PYENV_ROOT=$HOME/.pyenv && \
+    export PATH="$PYENV_ROOT/bin:$PATH" && \
     eval "$(pyenv init -)"
 
 [[ -d "/opt/scala/bin" ]] && \
