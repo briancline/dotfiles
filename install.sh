@@ -1,4 +1,6 @@
 #!/bin/bash
+set -o errexit
+
 PLATFORM=unknown
 export CORES=$(grep -c ^processor /proc/cpuinfo)
 export MAKEJOBS=$(expr $CORES - 1)
@@ -7,7 +9,7 @@ os_readlink="readlink"
 [[ "${OSTYPE}" =~ "darwin" ]] && os_readlink="readlink"
 [[ "${OSTYPE}" =~ "linux" ]] && os_readlink="readlink -f"
 
-ENVPATH=$(dirname $($os_readlink $0))
+ENVPATH=$(dirname $($os_readlink $0 || echo $0))
 PKG_INSTALL_CMD=
 PKG_REMOVE_CMD=
 PIP_CMD=pip
