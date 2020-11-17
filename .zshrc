@@ -192,6 +192,11 @@ setopt HIST_FIND_NO_DUPS
     export ANDROID_HOME=$HOME/app/android/sdk && \
     path_append $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
 
+export TERM=xterm-256color
+
+if grep -q 'Microsoft' /proc/version; then
+    source_if_exists ~/.zsh/wsl.sh
+fi
 
 source_if_exists ~/.env-work/.zshrc
 source_if_exists ~/.zsh/ssh-util.sh
