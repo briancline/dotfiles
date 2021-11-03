@@ -54,7 +54,6 @@ fi
 # If this is a new terminator-parented shell, force us to start in $HOME rather than our
 # Windows %USERPROFILE% (dumb side effect of starting wsl shells from the run prompt).
 if [[ "$(cat /proc/$PPID/comm)" =~ 'terminator' ]]; then
-    echo "Yep"
     pushd -q $HOME
     dirs -c
 fi
