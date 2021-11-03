@@ -41,7 +41,7 @@ function ssh-ready () {
 }
 
 
-function ssh-wait () {
+function sshw () {
     ssh-ready $1 && ssh $*
 }
 
