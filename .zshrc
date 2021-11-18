@@ -205,7 +205,7 @@ setopt HIST_FIND_NO_DUPS
 
 export TERM=xterm-256color
 
-if grep -qi 'microsoft' /proc/version; then
+if grep -qi 'microsoft' /proc/version 2>/dev/null; then
     source_if_exists ~/.zsh/wsl.sh
 fi
 
