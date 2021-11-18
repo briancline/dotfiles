@@ -19,11 +19,21 @@ precmd () {
     ## Set prompt, window title, and tab title
     local _prefix=""
     local _suffix=""
-    [ -n "${PROMPT_PREFIXES}" ] && _prefix="%{$fg[green]%}[${PROMPT_PREFIXES}]%{$reset_color%} "
+    local _prefixes="${PROMPT_PREFIXES}"
+
+    # automatically add virtualenv name to prefixes when present
+    if [ -n "${VIRTUAL_ENV}" ]; then
+        _prefixes="$_prefixes $(basename "${VIRTUAL_ENV}")"
+    fi
+
+    [ -n "${_prefixes}" ] && _prefix="%{$fg[green]%}[${_prefixes}]%{$reset_color%} "
     [ -n "${PROMPT_SUFFIXES}" ] && _suffix=" %{$fg[green]%}[${PROMPT_SUFFIXES}]%{$reset_color%}"
 
+    # if previous command returned non-zero error code, turn our prompt character red
+    local rc_color="%(?.%{$reset_color%}.$fg_bold[red])"
+
     export HOST_SHORT=${${HOST/.local/}%.*.*}
-    export PROMPT="${_prefix}%{$fg[blue]%}${HOST_SHORT}:%~%{$reset_color%}${_suffix}%# "
+    export PROMPT="${_prefix}%{$fg[blue]%}${HOST_SHORT}:%~%{$reset_color%}${_suffix}%{$rc_color%}%#%{$reset_color%} "
     print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"  ## window
     print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"  ## tab
 }
@@ -218,3 +228,8 @@ source_if_exists ~/.slrc
     [[ -s "$HOME/.rvm/scripts/rvm" ]] && \
     path_append $HOME/.rvm/bin && \
     source "$HOME/.rvm/scripts/rvm"  # Load RVM into environment as a function
+
+
+# Prevents previous test return code in this script from leaking into initial
+# prompt's coloring of prompt char (which is based on return code)
+true
