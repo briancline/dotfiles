@@ -144,6 +144,8 @@ augroup END
 highlight ExtraWhitespace ctermbg=yellow ctermfg=black
 match ExtraWhitespace /\s\+$/
 
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
 let g:user_emmet_settings = {
 \	'php' : {
 \		'extends' : 'html',
