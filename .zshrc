@@ -73,7 +73,8 @@ randpass () {
 }
 
 nowrap () {
-    cut -c -$(tput cols)
+    local _cols=${1:-$(tput cols)}
+    cut -c -${_cols}
 }
 
 
