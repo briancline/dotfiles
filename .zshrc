@@ -8,7 +8,6 @@ DOTFILES_PATH=$(dirname $(os_readlink ~/.zshrc))
 
 PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
 PATH=/usr/local/bin:$PATH
-PATH=$PATH:/opt/bin
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$DOTFILES_PATH/bin
 
@@ -77,6 +76,15 @@ nowrap () {
     cut -c -${_cols}
 }
 
+imv() {
+    local src dst
+    for src; do
+        [[ -e $src ]] || { print -u2 "$src does not exist"; continue }
+        dst=$src
+        vared -p 'New file name: ' dst
+        [[ $src != $dst ]] && mkdir -p $dst:h && mv -n $src $dst
+    done
+}
 
 _detect_platform
 
@@ -135,7 +143,7 @@ alias sl='slcli'
     || alias json='python -m json.tool'
 
 
-if [[ "${PLATFORM}" == "linux" ]]; then
+if [[ "${OSTYPE}" =~ "linux" ]]; then
     CKEYS_FILE=/usr/share/X11/locale/en_US.UTF-8/Compose
     [[ -f ${CKEYS_FILE} ]] && alias ckeys="${EDITOR} ${CKEYS_FILE}"
 fi
@@ -155,17 +163,6 @@ bindkey '^[[B' down-line-or-search     # Down
 
 bindkey '^[w' kill-region              # Esc-w (delete entire line)
 bindkey '^[[3~' delete-char            # Del
-
-imv() {
-    local src dst
-    for src; do
-        [[ -e $src ]] || { print -u2 "$src does not exist"; continue }
-        dst=$src
-        vared -p 'New file name: ' dst
-        [[ $src != $dst ]] && mkdir -p $dst:h && mv -n $src $dst
-    done
-}
-
 
 HISTFILE=~/.history
 SAVEHIST=500000
@@ -187,22 +184,10 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
 
 
-[[ -d "/sw/bin" ]] && \
-    export FINK_HOME=/sw && \
-    path_append /sw/bin
-
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
     export PYENV_ROOT=$HOME/.pyenv && \
     export PATH="$PYENV_ROOT/bin:$PATH" && \
     eval "$(pyenv init -)"
-
-[[ -d "/opt/scala/bin" ]] && \
-    export SCALA_HOME=/opt/scala && \
-    path_append $SCALA_HOME/bin
-
-[[ -d "$HOME/app/android" ]] && \
-    export ANDROID_HOME=$HOME/app/android/sdk && \
-    path_append $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools
 
 export TERM=xterm-256color
 

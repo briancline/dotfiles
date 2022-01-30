@@ -6,11 +6,6 @@ export WSL_IP="$(ip addr | grep -E 'inet (172|192)' | awk '{print $2}' | cut -d/
 export HOST_IP="$(ip ro | awk '/default via/{ print $3 }')"
 export DISPLAY="${HOST_IP}:0.0"
 
-echo "WSL IP:   ${WSL_IP}"
-echo "Host IP:  ${HOST_IP}"
-echo ""
-
-
 # Start SSH agent
 SSH_AGENT_FILE=~/.tmp-sshagent.rc
 

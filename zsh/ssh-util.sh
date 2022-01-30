@@ -48,13 +48,14 @@ function sshw () {
 }
 
 
-function yolossh () {
+function sshq () {
     if [ $# -eq 0 ]; then
         echo "Usage: $0 <host|user@host>"
         echo ""
         echo "Attempts to SSH to a host without using a known hosts file,"
         echo "nor doing any sort of strict host key checking. Additionally"
         echo "silences the accompanying warning by raising SSH's log level."
+        echo "Only recommended in frequently-rebuilt test environments."
         echo ""
         echo "Other arguments can be provided just as they would to ssh."
         return 1
