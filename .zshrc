@@ -86,6 +86,24 @@ imv() {
     done
 }
 
+va () {
+    local _env=${1:-.env}
+    if ! [ -d "${PWD}/${_env}" ]; then
+        echo "Error: ${_env} does not exist"
+        return 1
+    fi
+    if ! [ -f "${PWD}/${_env}/bin/activate" ]; then
+        echo "Error: ${_env}/bin/activate does not exist or is not a file"
+        return 1
+    fi
+
+    source "${PWD}/${_env}/bin/activate"
+}
+
+de () {
+    deactivate
+}
+
 _detect_platform
 
 
