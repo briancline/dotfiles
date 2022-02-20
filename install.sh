@@ -52,8 +52,7 @@ _install_dotfiles () {
 _change_shell_zsh () {
     $CHANGEZSH || return
     if [[ -n "$(which zsh)" ]]; then
-        RESULT=$(sudo chsh -s $(which zsh) $USER)
-        echo $RESULT
+        sudo chsh -s $(which zsh) $USER
     else
         echo "zsh is not installed on your system."
     fi
