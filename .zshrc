@@ -104,8 +104,22 @@ de () {
     deactivate
 }
 
-_detect_platform
+find_sublime () {
+    SUBLIME_BIN="$(which subl 2>/dev/null)"
+    OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+    LINUX_SUBLIME_BIN="/opt/sublime_text/sublime_text"
 
+    if [ -n "${SUBLIME_BIN}" ]; then
+        # No need to alias if it's in our path
+        return
+    elif [ -x "${OSX_SUBLIME_BIN}" ]; then
+        alias subl="${OSX_SUBLIME_BIN}"
+    elif [ -x "${LINUX_SUBLIME_BIN}" ]; then
+        alias subl="${LINUX_SUBLIME_BIN}"
+    fi
+}
+
+_detect_platform
 
 [ -d ~/.zsh/completion ] &&
     fpath=(~/.zsh/completion $fpath)
@@ -209,6 +223,8 @@ setopt HIST_FIND_NO_DUPS
     eval "$(pyenv init -)"
 
 export TERM=xterm-256color
+
+find_sublime
 
 if grep -qi 'microsoft' /proc/version 2>/dev/null; then
     source_if_exists ~/.zsh/wsl.sh
