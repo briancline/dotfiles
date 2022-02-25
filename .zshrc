@@ -108,13 +108,13 @@ find_sublime () {
     OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
     LINUX_SUBLIME_BIN="/opt/sublime_text/sublime_text"
 
-    if [ -n "$(which subl 2>/dev/null)" ]; then
+    if which subl >/dev/null 2>&1 ; then
         # No need to alias if it's in our path
         return
     elif [ -x "${OSX_SUBLIME_BIN}" ]; then
-        export SUBLIME_BIN="${OSX_SUBLIME_BIN}"
+        SUBLIME_BIN="${OSX_SUBLIME_BIN}"
     elif [ -x "${LINUX_SUBLIME_BIN}" ]; then
-        export SUBLIME_BIN="${LINUX_SUBLIME_BIN}"
+        SUBLIME_BIN="${LINUX_SUBLIME_BIN}"
     fi
 }
 
@@ -216,8 +216,9 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
 
 
+find_sublime
 if [ -n "${SUBLIME_BIN}" ]; then
-    alias subl="${SUBLIME_BIN}"
+    alias subl="'${SUBLIME_BIN}'"
 fi
 
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
@@ -226,8 +227,6 @@ fi
     eval "$(pyenv init -)"
 
 export TERM=xterm-256color
-
-find_sublime
 
 if grep -qi 'microsoft' /proc/version 2>/dev/null; then
     source_if_exists ~/.zsh/wsl.sh
