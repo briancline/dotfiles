@@ -105,17 +105,16 @@ de () {
 }
 
 find_sublime () {
-    SUBLIME_BIN="$(which subl 2>/dev/null)"
     OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
     LINUX_SUBLIME_BIN="/opt/sublime_text/sublime_text"
 
-    if [ -n "${SUBLIME_BIN}" ]; then
+    if [ -n "$(which subl 2>/dev/null)" ]; then
         # No need to alias if it's in our path
         return
     elif [ -x "${OSX_SUBLIME_BIN}" ]; then
-        alias subl="${OSX_SUBLIME_BIN}"
+        export SUBLIME_BIN="${OSX_SUBLIME_BIN}"
     elif [ -x "${LINUX_SUBLIME_BIN}" ]; then
-        alias subl="${LINUX_SUBLIME_BIN}"
+        export SUBLIME_BIN="${LINUX_SUBLIME_BIN}"
     fi
 }
 
@@ -216,6 +215,10 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
 
+
+if [ -n "${SUBLIME_BIN}" ]; then
+    alias subl="${SUBLIME_BIN}"
+fi
 
 [[ -s $HOME/.pyenv/bin/pyenv ]] && \
     export PYENV_ROOT=$HOME/.pyenv && \
