@@ -93,18 +93,39 @@ imv() {
 va () {
     local _env=${1:-.env}
     if ! [ -d "${PWD}/${_env}" ]; then
-        echo "Error: ${_env} does not exist"
+        echo >&2 "Error: ${_env} does not exist"
         return 1
-    fi
-    if ! [ -f "${PWD}/${_env}/bin/activate" ]; then
-        echo "Error: ${_env}/bin/activate does not exist or is not a file"
+    elif ! [ -f "${PWD}/${_env}/bin/activate" ]; then
+        echo >&2 "Error: ${_env}/bin/activate does not exist or is not a file"
+        return 1
+    elif [ -n "${VIRTUAL_ENV}" ]; then
+        echo >&2 "Error: Already using ${VIRTUAL_ENV}"
         return 1
     fi
 
     source "${PWD}/${_env}/bin/activate"
 }
 
+vn () {
+    local _env=${1:-.env}
+    if [ -d "${PWD}/${_env}" ]; then 
+        echo >&2 "Error: Directory ${_env} already exists"
+        return 1
+    fi
+
+    if [ "2" = "$(python -c "import sys; print(sys.version_info.major)")" ]; then
+        virtualenv ${_env}
+    else
+        python3 -m venv ${_env}
+    fi
+}
+
 de () {
+    if [ -z "${VIRTUAL_ENV}" ]; then
+        echo >&2 "Error: No virtual environment is active"
+        return 1
+    fi
+
     deactivate
 }
 
