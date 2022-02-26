@@ -146,8 +146,9 @@ find_sublime () {
 _detect_platform
 prompt_read_host
 
-[ -d ~/.zsh/completion ] &&
+if [ -d ~/.zsh/completion ]; then
     fpath=(~/.zsh/completion $fpath)
+fi
 
 autoload -U compinit && compinit
 autoload -U colors && colors
@@ -202,18 +203,25 @@ alias txn='tmux new-session -s'
 alias ez='vim ~/.zshrc'
 alias sl='slcli'
 
-[ -f ~/.bcrc ] \
-    && alias bc='bc -l ~/.bcrc' \
-    || alias bc='bc -l'
+if [ -f ~/.bcrc ]; then
+    alias bc='bc -l ~/.bcrc'
+fi
 
-(which jq >/dev/null 2>&1) \
-    && alias json='jq .' \
-    || alias json='python -m json.tool'
+if which jq >/dev/null 2>&1 ; then
+    alias json='jq .'
+elif which rich >/dev/null 2>&1 ; then
+    # TODO: this needs to run after pyenv init
+    alias json='rich --json -'
+else
+    alias json='python -m json.tool'
+fi
 
 
 if [[ "${OSTYPE}" =~ "linux" ]]; then
-    CKEYS_FILE=/usr/share/X11/locale/en_US.UTF-8/Compose
-    [[ -f ${CKEYS_FILE} ]] && alias ckeys="${EDITOR} ${CKEYS_FILE}"
+    CKEYS_FILE="/usr/share/X11/locale/en_US.UTF-8/Compose"
+    if [ -f "${CKEYS_FILE}" ]; then
+        alias ckeys="${EDITOR} ${CKEYS_FILE}"
+    fi
 fi
 
 
@@ -252,16 +260,6 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
 
 
-find_sublime
-if [ -n "${SUBLIME_BIN}" ]; then
-    alias subl="'${SUBLIME_BIN}'"
-fi
-
-[[ -s $HOME/.pyenv/bin/pyenv ]] && \
-    export PYENV_ROOT=$HOME/.pyenv && \
-    export PATH="$PYENV_ROOT/bin:$PATH" && \
-    eval "$(pyenv init -)"
-
 if grep -qi 'microsoft' /proc/version 2>/dev/null; then
     source_if_exists ~/.zsh/wsl.sh
 fi
@@ -275,17 +273,36 @@ source_if_exists ~/.zsh/chef.sh
 source_if_exists ~/.zsh/packer.sh
 source_if_exists ~/.zsh/swag.sh
 source_if_exists ~/.zsh/sl-utils.sh
-source_if_exists ~/.zsh/cordova-util.sh
 source_if_exists ~/.slrc
 
 
-[[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)" && \
-    export ENV_USE_RBENV=true
+# Detect whether we have Sublime Text, and if so, alias its binary
+find_sublime
+if [ -n "${SUBLIME_BIN}" ]; then
+    alias subl="'${SUBLIME_BIN}'"
+fi
 
-[ ! "$ENV_USE_RBENV" ] && [ ! "$ENV_NO_RVM" ] && \
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && \
-    path_append $HOME/.rvm/bin && \
-    source "$HOME/.rvm/scripts/rvm"  # Load RVM into environment as a function
+
+# Load pyenv if we have it
+if [ -x $HOME/.pyenv/bin/pyenv ]; then
+    export PYENV_ROOT=$HOME/.pyenv
+    path_prepend "${PYENV_ROOT}/bin"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+fi
+
+# Load rbenv if we have it
+if [ -d "${HOME}/.rbenv" ]; then
+    export ENV_USE_RBENV=1
+    path_prepend "${HOME}/.rbenv/bin"
+    eval "$(rbenv init -)"
+fi
+
+# Load rvm if we have it, aren't using rbenv, and not explicitly disabling it
+# if [ -s "$HOME/.rvm/scripts/rvm" ] && [ ! "$ENV_USE_RBENV" = "1" ] && [ ! "$ENV_NO_RVM" = "1" ]; then
+#     path_append $HOME/.rvm/bin
+#     source "$HOME/.rvm/scripts/rvm"
+# fi
 
 
 # Prevents previous test return code in this script from leaking into initial

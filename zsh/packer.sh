@@ -1,5 +1,7 @@
-[[ -d "/opt/packer" ]] && \
-    export PATH=$PATH:/opt/packer
+if [ -d "/opt/packer" ]; then
+    path_append "/opt/packer"
+fi
 
-[[ -d "$HOME/app/packer" ]] && \
-    export PATH=$PATH:$HOME/app/packer
+if [ -d "$HOME/app/packer" ]; then
+    path_append "${HOME}/app/packer"
+fi

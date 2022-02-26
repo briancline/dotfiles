@@ -1,5 +1,4 @@
-if [ -d /opt/chef/embedded/bin ]; then
-    export PATH=/opt/chef/embedded/bin:$PATH
-
-    export ENV_NO_RVM=true
+if [ -d "/opt/chef/embedded/bin" ]; then
+    path_prepend "/opt/chef/embedded/bin"
+    export ENV_NO_RVM=1
 fi
