@@ -31,10 +31,14 @@ precmd () {
     # if previous command returned non-zero error code, turn our prompt character red
     local rc_color="%(?.%{$reset_color%}.$fg_bold[red])"
 
-    export HOST_SHORT=${${HOST/.local/}%.*.*}
-    export PROMPT="${_prefix}%{$fg[blue]%}${HOST_SHORT}:%~%{$reset_color%}${_suffix}%{$rc_color%}%#%{$reset_color%} "
-    print -Pn "\e]2;%n@${HOST%.*.*}:%~\a"  ## window
-    print -Pn "\e]1;%n@${HOST%.*.*}:%~\a"  ## tab
+    export PROMPT="${_prefix}%{$fg[blue]%}${PROMPT_HOST}:%~%{$reset_color%}${_suffix}%{$rc_color%}%#%{$reset_color%} "
+    print -Pn "\e]2;%n@${PROMPT_HOST%.*.*}:%~\a"  ## window
+    print -Pn "\e]1;%n@${PROMPT_HOST%.*.*}:%~\a"  ## tab
+}
+
+prompt_read_host () {
+    export PROMPT_HOST_FULL="$(hostname -f)"
+    export PROMPT_HOST="${${PROMPT_HOST_FULL/.local/}%.*.*}"
 }
 
 prompt_prefix_add () {
@@ -119,6 +123,7 @@ find_sublime () {
 }
 
 _detect_platform
+prompt_read_host
 
 [ -d ~/.zsh/completion ] &&
     fpath=(~/.zsh/completion $fpath)
