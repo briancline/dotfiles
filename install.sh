@@ -1,15 +1,14 @@
 #!/bin/bash
 set -o errexit
 
-PLATFORM=unknown
-export CORES=$(grep -c ^processor /proc/cpuinfo)
-export MAKEJOBS=$(expr $CORES - 1)
+PLATFORM="unknown"
+export CORES="$(grep -c ^processor /proc/cpuinfo)"
+export MAKEJOBS="$(( ${CORES} - 1 ))"
 
-os_readlink="readlink"
 [[ "${OSTYPE}" =~ "darwin" ]] && alias os_readlink='readlink'
 [[ "${OSTYPE}" =~ "linux" ]] && alias os_readlink='readlink -f'
 
-DOTFILES_PATH=$(dirname $($os_readlink $0 || echo $0))
+DOTFILES_PATH=$(dirname $(os_readlink "$0" || echo "$0"))
 BACKUP_PATH="${HOME}/old-dotfiles"
 CHANGEZSH=false
 

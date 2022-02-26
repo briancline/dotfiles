@@ -1,15 +1,14 @@
 [[ "${OSTYPE}" =~ "darwin" ]] && alias os_readlink='readlink'
 [[ "${OSTYPE}" =~ "linux" ]] && alias os_readlink='readlink -f'
 
-DOTFILES_PATH=$(dirname $(os_readlink ~/.zshrc))
+DOTFILES_PATH="$(dirname "$(os_readlink ~/.zshrc)")"
 
+. "${DOTFILES_PATH}/common.sh"
 
-. $DOTFILES_PATH/common.sh
-
-PATH=/sbin:/usr/sbin:/usr/local/sbin:$PATH
-PATH=/usr/local/bin:$PATH
-PATH=$PATH:$HOME/bin
-PATH=$PATH:$DOTFILES_PATH/bin
+PATH="/sbin:/usr/sbin:/usr/local/sbin:${PATH}"
+PATH="/usr/local/bin:${PATH}"
+PATH="${PATH}:${HOME}/bin"
+PATH="${PATH}:${DOTFILES_PATH}/bin"
 
 PROMPT_PREFIXES=()
 PROMPT_SUFFIXES=()
@@ -216,7 +215,6 @@ else
     alias json='python -m json.tool'
 fi
 
-
 if [[ "${OSTYPE}" =~ "linux" ]]; then
     CKEYS_FILE="/usr/share/X11/locale/en_US.UTF-8/Compose"
     if [ -f "${CKEYS_FILE}" ]; then
@@ -264,7 +262,7 @@ if grep -qi 'microsoft' /proc/version 2>/dev/null; then
     source_if_exists ~/.zsh/wsl.sh
 fi
 
-source_if_exists ~/.env-work/.zshrc
+source_if_exists ~/.df-work/.zshrc
 source_if_exists ~/.zsh/ssh-util.sh
 source_if_exists ~/.zsh/git-prompt.sh
 source_if_exists ~/.zsh/git-editor.sh
