@@ -5,10 +5,16 @@ PLATFORM="unknown"
 export CORES="$(grep -c ^processor /proc/cpuinfo)"
 export MAKEJOBS="$(( ${CORES} - 1 ))"
 
-[[ "${OSTYPE}" =~ "darwin" ]] && alias os_readlink='readlink'
-[[ "${OSTYPE}" =~ "linux" ]] && alias os_readlink='readlink -f'
+os_readlink () {
+    local _readlink='readlink -f'
+    if [[ "${OSTYPE}" =~ "darwin" ]]; then
+        _readlink='readlink'
+    fi
 
-DOTFILES_PATH=$(dirname $(os_readlink "$0" || echo "$0"))
+    ${_readlink} $*
+}
+
+DOTFILES_PATH=$(dirname $(os_readlink "$0"))
 BACKUP_PATH="${HOME}/old-dotfiles"
 CHANGEZSH=false
 
