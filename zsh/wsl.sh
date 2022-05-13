@@ -52,8 +52,3 @@ if [[ "$(cat /proc/$PPID/comm)" =~ 'terminator' ]]; then
     pushd -q $HOME
     dirs -c
 fi
-
-
-echo "********************************************************************************"
-echo "****** REMINDER: Change WSL2 local uid to 10000 so you can write via NFS! ******"
-echo "********************************************************************************"
