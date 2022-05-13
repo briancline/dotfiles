@@ -191,6 +191,8 @@ fi
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
+alias llh='ls -lh'
+alias lls='ls -lSr'
 alias llt='ls -ltr'
 
 alias tmux='tmux -2'
