@@ -24,6 +24,7 @@ precmd () {
         _prefixes="$_prefixes $(basename "${VIRTUAL_ENV}")"
     fi
 
+    _prefixes="${${_prefixes##([[:space:]])}%%([[:space:]])}"
     [ -n "${_prefixes}" ] && _prefix="%{$fg[green]%}[${_prefixes}]%{$reset_color%} "
     [ -n "${PROMPT_SUFFIXES}" ] && _suffix=" %{$fg[green]%}[${PROMPT_SUFFIXES}]%{$reset_color%}"
 
@@ -107,7 +108,7 @@ va () {
 
 vn () {
     local _env=${1:-.env}
-    if [ -d "${PWD}/${_env}" ]; then 
+    if [ -d "${PWD}/${_env}" ]; then
         echo >&2 "Error: Directory ${_env} already exists"
         return 1
     fi
