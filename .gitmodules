@@ -1,48 +1,48 @@
 [submodule "ext/tmux-colors-solarized"]
 	path = ext/tmux-colors-solarized
-	url = git://github.com/seebi/tmux-colors-solarized.git
+	url = https://github.com/seebi/tmux-colors-solarized.git
 [submodule "ext/tmux-powerline"]
 	path = ext/tmux-powerline
-	url = git://github.com/erikw/tmux-powerline.git
+	url = https://github.com/erikw/tmux-powerline.git
 [submodule "ext/ubuntu-mono-powerline-ttf"]
 	path = ext/ubuntu-mono-powerline-ttf
-	url = git://github.com/pdf/ubuntu-mono-powerline-ttf.git
+	url = https://github.com/pdf/ubuntu-mono-powerline-ttf.git
 [submodule "ext/ubuntu-mono-powerline"]
 	path = ext/ubuntu-mono-powerline
-	url = git://github.com/scotu/ubuntu-mono-powerline.git
+	url = https://github.com/scotu/ubuntu-mono-powerline.git
 [submodule "ext/vim-powerline"]
 	path = ext/vim-powerline
-	url = git://github.com/Lokaltog/vim-powerline.git
+	url = https://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
-	url = git://github.com/scrooloose/syntastic.git
+	url = https://github.com/scrooloose/syntastic.git
 [submodule "vim/bundle/vim-irblack"]
 	path = vim/bundle/vim-irblack
-	url = git://github.com/wgibbs/vim-irblack.git
+	url = https://github.com/wgibbs/vim-irblack.git
 [submodule "vim/bundle/vim-pathogen"]
 	path = vim/bundle/vim-pathogen
-	url = git://github.com/tpope/vim-pathogen.git
+	url = https://github.com/tpope/vim-pathogen.git
 [submodule "vim/bundle/vim-powerline"]
 	path = vim/bundle/vim-powerline
-	url = git://github.com/Lokaltog/vim-powerline.git
+	url = https://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
+	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/colors/Vim-Tomorrow-Theme"]
 	path = vim/colors/Vim-Tomorrow-Theme
-	url = git://github.com/chriskempson/vim-tomorrow-theme.git
+	url = https://github.com/chriskempson/vim-tomorrow-theme.git
 [submodule "vim/colors/wombat256.vim"]
 	path = vim/colors/wombat256.vim
-	url = git://github.com/vim-scripts/wombat256.vim.git
+	url = https://github.com/vim-scripts/wombat256.vim.git
 [submodule "vim/bundle/vim-scala"]
 	path = vim/bundle/vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
-	url = git://github.com/majutsushi/tagbar
+	url = https://github.com/majutsushi/tagbar.git
 [submodule "vim/bundle/vim-flake8"]
 	path = vim/bundle/vim-flake8
-	url = git://github.com/nvie/vim-flake8.git
+	url = https://github.com/nvie/vim-flake8.git
 [submodule "vim/bundle/emmet-vim"]
 	path = vim/bundle/emmet-vim
-	url = git://github.com/mattn/emmet-vim.git
+	url = https://github.com/mattn/emmet-vim.git
