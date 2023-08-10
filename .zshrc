@@ -90,12 +90,14 @@ imv() {
     done
 }
 
+
+# Activate a Python virtual environment (defaults to .venv in current directory)
 va () {
-    local _env=${1:-.env}
-    if ! [ -d "${PWD}/${_env}" ]; then
+    local _env=${1:-.venv}
+    if ! [ -d "${_env}" ]; then
         echo >&2 "Error: ${_env} does not exist"
         return 1
-    elif ! [ -f "${PWD}/${_env}/bin/activate" ]; then
+    elif ! [ -f "${_env}/bin/activate" ]; then
         echo >&2 "Error: ${_env}/bin/activate does not exist or is not a file"
         return 1
     elif [ -n "${VIRTUAL_ENV}" ]; then
@@ -103,31 +105,75 @@ va () {
         return 1
     fi
 
-    source "${PWD}/${_env}/bin/activate"
+    source "${_env}/bin/activate"
+    hash -r
 }
 
+# Create a fresh python3 venv with latest pip and wheel (defaults to .venv in current directory)
 vn () {
-    local _env=${1:-.env}
-    if [ -d "${PWD}/${_env}" ]; then
+    local _env=${1:-.venv}
+    if [ -d "${_env}" ]; then
         echo >&2 "Error: Directory ${_env} already exists"
         return 1
     fi
 
-    if [ "2" = "$(python -c "import sys; print(sys.version_info.major)")" ]; then
-        virtualenv ${_env}
-    else
-        python3 -m venv ${_env}
-    fi
+    echo >&1 "Creating py3 venv in ${_env}"
+    python3 -m venv "${_env}" || return 1
+    vup "${_env}"
 }
 
+# Create a legacy python2 venv with latest possible pip and wheel (defaults to .venv2 in current directory)
+vn2 () {
+    local _env=${1:-.venv2}
+    if [ -d "${_env}" ]; then
+        echo >&2 "Error: Directory ${_env} already exists"
+        return 1
+    fi
+
+    if ! [ "2" = "$(python2 -c "import sys; print(sys.version_info.major)" 2>/dev/null)" ]; then
+        echo >&2 "Error: Python 2 is not installed or not in path"
+        return 1
+    fi
+
+    echo >&1 "Creating py2 venv in ${_env}"
+    python2 -m virtualenv "${_env}" || return 1
+
+    echo >&1 "Installing latest possible pip and wheel"
+    vup "${_env}"
+}
+
+# Activate a venv, creating a fresh one if it does not yet exist (defaults to .venv in current directory)
+vna () {
+    local _env=${1:-.venv}
+    if ! [ -f "${_env}/bin/activate" ]; then
+        vn "${_env}"
+        vup "${_env}"
+    fi
+    va "${_env}"
+}
+
+# Upgrade a venv's copy of pip and wheel. A venv must be specified, or active.
+# Output will only be shown when a change or error occurs, to quell "already installed" messages.
+vup () {
+    local _env=${1:-$VIRTUAL_ENV}
+    if [ -z "${_env}" ]; then
+        echo >&2 "Error: No venv specified and one is not active"
+        return 1
+    fi
+
+    "${_env}/bin/python" -m pip install -q --upgrade pip wheel
+}
+
+# Deactivate the current venv
 de () {
     if [ -z "${VIRTUAL_ENV}" ]; then
         echo >&2 "Error: No virtual environment is active"
-        return 1
+        return 0
     fi
 
     deactivate
 }
+
 
 find_sublime () {
     OSX_SUBLIME_BIN="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
