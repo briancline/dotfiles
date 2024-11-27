@@ -17,8 +17,15 @@
 	ui = auto
 
 [alias]
+	amend-last = commit --amend --reuse-message=HEAD
+	df = !git --no-pager diff
+	ds = diff --staged
 	lg = log --graph --decorate --oneline --all --pretty=format:'%C(yellow)%h %C(green)[%cd]%C(reset) %s' --abbrev-commit --date=short
+	pr = pull --rebase
+	prr = pull --rebase --rerere
+	s = status
 	tree = log --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cd)%C(reset)' --abbrev-commit --date=short
+	unstage = restore --staged
 
 [gitreview]
 	username = briancline
