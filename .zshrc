@@ -69,12 +69,6 @@ source_if_exists () {
     [[ -f "$1" ]] && source "$1"
 }
 
-randpass () {
-    [[ "$2" == "0" ]] && CHAR="[:alnum:]" || CHAR="[:graph:]"
-    cat /dev/urandom | tr -cd "$CHAR" | head -c ${1:-32}
-    echo
-}
-
 nowrap () {
     local _cols=${1:-$(tput cols)}
     cut -c -${_cols}
