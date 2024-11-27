@@ -78,13 +78,26 @@ mkcd() {
     mkdir -p $* && cd ${1}
 }
 
+# imv: Interactive mv. Accepts just the source path, but prompts for the new
+# target path/name with the existing one prepopulated for easy editing. Allows
+# multiple source paths, and will prompt for each of them. Particularly handy
+# when you just want to rename everything in a dir one by one via `imv *`.
+#
+# Largely for quicker renaming of long files/dirs, but handles moving to a
+# different directory as well, and without the fuss of escaping things.
+#
+# If the name is unchanged, no action is attempted. If the target includes a
+# path, and the target's parent directory does not exist, it will be created
+# automatically. If the target path/name already exists, it will not be
+# overwritten.
+#
 imv() {
     local src dst
     for src; do
         [[ -e $src ]] || { print -u2 "$src does not exist"; continue }
         dst=$src
-        vared -p 'New file name: ' dst
-        [[ $src != $dst ]] && mkdir -p $dst:h && mv -n $src $dst
+        vared -p 'New name: ' dst
+        [[ $src != $dst ]] && mkdir -p $dst:h && mv --no-clobber "${src}" "${dst}"
     done
 }
 
