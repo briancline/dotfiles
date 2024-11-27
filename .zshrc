@@ -74,6 +74,10 @@ nowrap () {
     cut -c -${_cols}
 }
 
+mkcd() {
+    mkdir -p $* && cd ${1}
+}
+
 imv() {
     local src dst
     for src; do
