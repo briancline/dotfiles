@@ -289,6 +289,11 @@ if [[ "${OSTYPE}" =~ "linux" ]]; then
     fi
 fi
 
+# Chars excluded from default word chars (largely for easier alt-b/alt-f):
+#   .  (for hostnames/filenames)
+#   /  (for paths/URLs)
+export WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
+
 
 bindkey '^[[1~' beginning-of-line      # Home
 bindkey '^[[H' beginning-of-line       # Home
