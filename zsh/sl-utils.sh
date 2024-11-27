@@ -18,7 +18,7 @@ function slip () {
     ( $ipmi_only ) && pattern="/ipmi_ip/"
     ( $priv_only ) && pattern="/private_ip/"
 
-    sl $srv_type detail $server | awk "$pattern {print \$2}"
+    slcli $srv_type detail $server | awk "$pattern {print \$2}"
 }
 
 function slpw () {
@@ -34,5 +34,5 @@ function slpw () {
     local server=$1
     local pattern='/ root /'
 
-    sl $srv_type detail --passwords $server | awk "$pattern {print \$NF}"
+    slcli $srv_type detail --passwords $server | awk "$pattern {print \$NF}"
 }

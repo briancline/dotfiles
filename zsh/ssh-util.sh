@@ -6,7 +6,7 @@ function ssh-ready () {
     local remote_port=${2:-$default_port}
 
     if [ $# -eq 0 ]; then
-        echo "Usage: $0 <ip|hostname|alias> [ssh port]"
+        echo "Usage: $0 [user@]<ip|hostname|alias> [ssh port]"
         echo ""
         echo "Evaluates true when a connection can successfully be"
         echo "established to <ip|hostname|alias> on TCP port ${remote_port},"
@@ -16,7 +16,7 @@ function ssh-ready () {
         echo "or until a connection has successfully been established."
         echo ""
         echo "Example usage:"
-        echo "\$ ssh-ready && ssh user@10.2.3.4"
+        echo "\$ $0 10.2.3.4 && ssh user@10.2.3.4"
         echo "\$ ip=10.2.3.4 while ! $0 \$ip; echo -n '.'; done; ssh user@\$ip -o SSHOption=terrific"
         return 1
     fi
@@ -63,4 +63,3 @@ function sshq () {
 
     ssh $@ -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR
 }
-
