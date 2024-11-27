@@ -242,10 +242,17 @@ alias lls='ls -lSr'
 alias llt='ls -ltr'
 
 alias tmux='tmux -2'
-alias tx='tmux -2'
 alias txl='tmux list-sessions'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
+
+# tx: Attach to a specific tmux session, or create it if it doesn't exist yet.
+# Accepts additional arguments to tmux after session name.
+tx () {
+    local _sess="$1"
+    shift;
+    tmux new-session -s "${_sess}" -A "$@"
+}
 
 alias ez='vim ~/.zshrc'
 alias sl='slcli'
