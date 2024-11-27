@@ -335,6 +335,7 @@ if grep -qi 'microsoft' /proc/version 2>/dev/null; then
 fi
 
 source_if_exists ~/.df-work/.zshrc
+
 source_if_exists ~/.zsh/ssh-util.sh
 source_if_exists ~/.zsh/git-prompt.sh
 source_if_exists ~/.zsh/git-editor.sh
@@ -358,7 +359,6 @@ if [ -x $HOME/.pyenv/bin/pyenv ]; then
     export PYENV_ROOT=$HOME/.pyenv
     path_prepend "${PYENV_ROOT}/bin"
     eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
 fi
 
 # Load rbenv if we have it
@@ -368,11 +368,6 @@ if [ -d "${HOME}/.rbenv" ]; then
     eval "$(rbenv init -)"
 fi
 
-# Load rvm if we have it, aren't using rbenv, and not explicitly disabling it
-# if [ -s "$HOME/.rvm/scripts/rvm" ] && [ ! "$ENV_USE_RBENV" = "1" ] && [ ! "$ENV_NO_RVM" = "1" ]; then
-#     path_append $HOME/.rvm/bin
-#     source "$HOME/.rvm/scripts/rvm"
-# fi
 
 
 # Prevents previous test return code in this script from leaking into initial
