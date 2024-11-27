@@ -147,7 +147,6 @@ vna () {
     local _env=${1:-.venv}
     if ! [ -f "${_env}/bin/activate" ]; then
         vn "${_env}"
-        vup "${_env}"
     fi
     va "${_env}"
 }
