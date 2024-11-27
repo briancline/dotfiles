@@ -272,14 +272,15 @@ if [ -f ~/.bcrc ]; then
     alias bc='bc -l ~/.bcrc'
 fi
 
-if which jq >/dev/null 2>&1 ; then
-    alias json='jq .'
-elif which rich >/dev/null 2>&1 ; then
-    # TODO: this needs to run after pyenv init
-    alias json='rich --json -'
-else
-    alias json='python -m json.tool'
-fi
+json () {
+    if command -v jq >/dev/null 2>&1 ; then
+        jq .
+    elif command -v rich >/dev/null 2>&1 ; then
+        rich --json -
+    else
+        python -m json.tool
+    fi
+}
 
 if [[ "${OSTYPE}" =~ "linux" ]]; then
     CKEYS_FILE="/usr/share/X11/locale/en_US.UTF-8/Compose"
