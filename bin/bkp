@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -o errexit
+
+excludes=(
+    "dev/pub/**"
+    "dev/pubarchive/**"
+    "*.pyc"
+    "__pycache__"
+    ".env*/**"
+    ".venv*"
+    ".cache"
+    "*.o"
+    "*.a"
+    "a.out"
+    "*.bin"
+    "*.o.d"
+    "nohup.out"
+    "build/CMakeFiles"
+    "/.local/share/containers"
+    "/.local/share/gnome-boxes"
+    "/.local/share/JetBrains"
+    "/.local/share/libvirt/images"
+    "/.local/share/Trash"
+    "/.local/share/uv/"
+    "/.pyenv"
+)
+
+MS="$(date +%Y-%m)"
+DS="$(date +%Y-%m-%d)"
+DTS="$(date +%Y%m%d_%H%M%S)"
+
+SRC_DIR="$1"
+DIR_PARENT="$(dirname "${SRC_DIR}")"
+DIR_NAME="$(basename "${SRC_DIR}")"
+DEST_FILE="${HOME}/backups/${MS}/${DIR_NAME}__${DTS}.tgz"
+DEST_PARENT="$(dirname "${DEST_FILE}")"
+
+mkdir -p "${DEST_PARENT}"
+
+# DEST_FILE=/dev/null
+
+set -o xtrace
+tar \
+    -czv \
+    --acls \
+    --xattrs \
+    --exclude-from <( printf "%s\n" "${excludes[@]}" ) \
+    -f "${DEST_FILE}" \
+    -C "${DIR_PARENT}" \
+    "${DIR_NAME}"
+
+ls -lh "${DEST_FILE}"
