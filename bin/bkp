@@ -17,6 +17,19 @@ excludes=(
     "*.o.d"
     "nohup.out"
     "build/CMakeFiles"
+    "*.qcow2"
+    "*.vdi"
+    "*.vmdk"
+    "*.img"
+    "*.ima"
+    "*.flp"
+    "*.box"
+    "*.iso"
+    "*.cdr"
+    "*.dmg"
+    "**/kernel"
+    "**/initramfs"
+    "**/rootfs.img.gz"
     "/.local/share/containers"
     "/.local/share/gnome-boxes"
     "/.local/share/JetBrains"
@@ -24,6 +37,8 @@ excludes=(
     "/.local/share/Trash"
     "/.local/share/uv/"
     "/.pyenv"
+    ".DS_Store"
+    "**/qemu-system-*"
 )
 
 MS="$(date +%Y-%m)"
@@ -35,19 +50,30 @@ DIR_PARENT="$(dirname "${SRC_DIR}")"
 DIR_NAME="$(basename "${SRC_DIR}")"
 DEST_FILE="${HOME}/backups/${MS}/${DIR_NAME}__${DTS}.tgz"
 DEST_PARENT="$(dirname "${DEST_FILE}")"
+TAR_DEST_FILE="${DEST_FILE}"
 
 mkdir -p "${DEST_PARENT}"
 
-# DEST_FILE=/dev/null
+if [ "$2" = "--dry-run" ]; then
+    TAR_DEST_FILE="/dev/null"
+fi
 
 set -o xtrace
 tar \
     -czv \
+    --totals \
+    --ignore-case \
     --acls \
     --xattrs \
     --exclude-from <( printf "%s\n" "${excludes[@]}" ) \
-    -f "${DEST_FILE}" \
+    -f "${TAR_DEST_FILE}" \
     -C "${DIR_PARENT}" \
     "${DIR_NAME}"
 
-ls -lh "${DEST_FILE}"
+set +o xtrace
+
+if [ "$2" = "--dry-run" ]; then
+    echo "Dest file: ${DEST_FILE}"
+else
+    ls -lh "${DEST_FILE}"
+fi
