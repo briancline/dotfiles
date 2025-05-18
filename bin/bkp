@@ -2,6 +2,9 @@
 
 set -o errexit
 
+BC_BACKUPS_DIR="${BC_BACKUPS_DIR:-${HOME}/backups}"
+BC_BACKUPS_REMOTE="${BC_BACKUPS_REMOTE:-${HOME}/backup-remote}"
+
 excludes=(
     "dev/pub/**"
     "dev/pubarchive/**"
@@ -27,6 +30,8 @@ excludes=(
     "*.iso"
     "*.cdr"
     "*.dmg"
+    "*.rpm"
+    "*.deb"
     "**/kernel"
     "**/initramfs"
     "**/rootfs.img.gz"
@@ -48,7 +53,7 @@ DTS="$(date +%Y%m%d_%H%M%S)"
 SRC_DIR="$1"
 DIR_PARENT="$(dirname "${SRC_DIR}")"
 DIR_NAME="$(basename "${SRC_DIR}")"
-DEST_FILE="${HOME}/backups/${MS}/${DIR_NAME}__${DTS}.tgz"
+DEST_FILE="${BC_BACKUPS_DIR}/${MS}/${DIR_NAME}__${DTS}.tgz"
 DEST_PARENT="$(dirname "${DEST_FILE}")"
 TAR_DEST_FILE="${DEST_FILE}"
 
@@ -61,6 +66,7 @@ fi
 set -o xtrace
 tar \
     -czv \
+    --dereference \
     --totals \
     --ignore-case \
     --acls \
