@@ -257,6 +257,9 @@ alias txl='tmux list-sessions'
 alias txa='tmux attach-session -t'
 alias txn='tmux new-session -s'
 
+alias anav='ansible-navigator'
+alias anr='ansible-navigator run'
+
 # tx: Attach to a specific tmux session, or create it if it doesn't exist yet.
 # Accepts additional arguments to tmux after session name.
 tx () {
