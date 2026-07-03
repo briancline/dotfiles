@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""
+Checks local user's password expiration and shows a desktop notification if expiring soon.
+
+Tested under KDE Plasma 6 on Fedora 43+.
+"""
+
+import argparse
+import contextlib
+import datetime
+import os
+import pwd
+import subprocess
+import sys
+
+USER_NAME = pwd.getpwuid(os.getuid()).pw_name
+NOTIFY_APP_NAME = os.path.basename(sys.argv[0])
+NOTIFY_TITLE = f'Password Expiration for {USER_NAME}'
+NOTIFY_BASE_ID = 83900
+
+
+def get_password_expiry_date() -> datetime.date | None:
+    """Return password expiry date for logged-in user, or None if no expiry is set."""
+
+    chage_result = subprocess.run(
+        ['/sbin/chage', '--list', '--iso8601', USER_NAME],
+        capture_output=True,
+        text=True,
+        check=True)
+
+    for line in chage_result.stdout.splitlines():
+        if not line.startswith('Password expires'):
+            continue
+
+        expiry_str = line.split(':', 1)[1].strip()
+        if expiry_str in ('never', 'password must be changed'):
+            return None
+
+        return datetime.date.fromisoformat(expiry_str)
+
+    return None
+
+
+def notify_desktop(title: str, message: str, urgency: str = 'critical', id_offset: int = 0) -> None:
+    """Show a desktop notification using notify-send.
+
+    To help avoid duplicates and ensure the notification is seen, we default to critical urgency to
+    require user dismissal, and use replace-id to not spam if they haven't dismissed yet.
+
+    Sometimes the notification center gets confused and doesn't show a notification ID that was
+    previously dismissed and *should* show up, so offset it a bit by adding whatever ID offset
+    is specified (in this script's case, the number of days until expiration). That way if it's
+    lodged for multiple days, it should appear again the next day.
+    """
+
+    replace_id = NOTIFY_BASE_ID + id_offset
+    subprocess.run(
+        ['/sbin/notify-send',
+         '--app-name', NOTIFY_APP_NAME,
+         '--replace-id', str(replace_id),
+         '--urgency', urgency,
+         title,
+         message],
+        check=True)
+
+
+def main() -> bool:
+    parser = argparse.ArgumentParser(
+        description='Alert user if local password expiration is approaching',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        '--days', type=int, default=10,
+        help='Alert when password expires within specified number of days or less')
+    args = parser.parse_args()
+
+    expiry_date = get_password_expiry_date()
+    if not expiry_date:
+        return True
+
+    today = datetime.date.today()
+    days_left = (expiry_date - today).days
+
+    if days_left > args.days:
+        return True
+
+    if days_left < 0:
+        message = f'Your local password expired {abs(days_left)} days ago!'
+    elif days_left == 0:
+        message = 'Your local password expires TODAY!'
+    elif days_left == 1:
+        message = 'Your local password expires TOMORROW!'
+    else:
+        message = f'Your local password expires in {days_left} days!'
+
+    notify_desktop(NOTIFY_TITLE, message, id_offset=days_left)
+    print(f'Warning: {message}', file=sys.stderr)
+
+    return True
+
+
+if __name__ == '__main__':
+    with contextlib.suppress(KeyboardInterrupt):
+        sys.exit(0 if main() else 1)
