@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodic alerts for local password expiration
+
+[Timer]
+# OnCalendar=Mon..Fri *-*-* 09,12,17:00
+OnCalendar=*-*-* 09,12,17:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

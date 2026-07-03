@@ -1,0 +1,6 @@
+[Unit]
+Description=Check for and alert about approaching local password expiration
+
+[Service]
+Type=oneshot
+ExecStart=%h/.df/bin/check-pw-expiration
