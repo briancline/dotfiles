@@ -32,3 +32,6 @@
 
 [gitreview]
 	username = briancline
+
+[cola]
+	startupmode = folder
